@@ -37,7 +37,7 @@ contract Marketh {
     uint public itemsCount;
     
     mapping (address => uint) pendingWithdrawals;
-
+    //GETTER FOR PENDINGWITHDRAWALS!!
 
     constructor() public {
         admin = msg.sender;
@@ -136,6 +136,7 @@ contract Marketh {
         require(items[_itemId].quantity > 0);
         
         pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]] += items[_itemId].price;
+        items[_itemId].quantity--;
     }
     
 
