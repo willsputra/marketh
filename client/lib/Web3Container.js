@@ -21,7 +21,7 @@ export default class Web3Container extends React.Component {
   }
 
   render () {
-    const { web3, accounts, contract } = this.state
+    const { web3, accounts, contract, args } = this.state
     return web3 && accounts
       ? this.props.render({ web3, accounts, contract })
       : this.props.renderLoading()

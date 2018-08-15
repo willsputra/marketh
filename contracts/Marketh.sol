@@ -27,6 +27,7 @@ contract Marketh {
     mapping(address => uint[]) public storeOwnerToStores;
     
     mapping(uint => uint) public itemToStore;
+    mapping(uint => uint[]) public storeToItems;
 
     address public admin;
 
@@ -108,6 +109,7 @@ contract Marketh {
         items.push(newItem);
         
         itemToStore[itemsCount] = _storeId;
+        storeToItems[_storeId].push(itemsCount);
 
         itemsCount++;
      }

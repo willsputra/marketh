@@ -1,6 +1,6 @@
 import React from 'react'
-import Link from 'next/link'
 import Web3Container from '../lib/Web3Container'
+import Link from 'next/link'
 
 class IndexStore extends React.Component {
   state = {
@@ -29,17 +29,22 @@ class IndexStore extends React.Component {
   render() {
     return (
       <div>
-        {this.state.stores.map(store => (
+        {this.state.stores.map((store, index) => (
+        <Link href={{ pathname: '/indexitem', query: { id: index }}}>
+        <a>
           <div>
             <p>{store.imageUrl}</p>
             <p>{store.title}</p>
             <p>{store.description}</p>
           </div>
+          </a>
+          </Link>
         ))}
       </div>
     )
   }
 }
+
 
 export default () => (
   <Web3Container

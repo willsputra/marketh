@@ -1,14 +1,17 @@
 import React from 'react'
-import Link from 'next/link'
 import Web3Container from '../lib/Web3Container'
+import {withRouter} from 'next/router'
 
 class IndexItem extends React.Component {
+
+
   state = {
     itemsCount: '',
     items: []
   }
 
   async componentDidMount() {
+
     const { contract } = this.props
     const itemsCount = await contract.methods.itemsCount().call()
 
@@ -38,10 +41,13 @@ class IndexItem extends React.Component {
   }
 
   render() {
+    console.log(this.props)
+
     return (
       <div>
         {this.state.items.map((item, index) => (
           <div>
+            <p><strong>store {item.storeId}</strong></p>
             <p>{item.imageUrl}</p>
             <p>{item.title}</p>
             <p>{item.description}</p>
@@ -54,11 +60,26 @@ class IndexItem extends React.Component {
   }
 }
 
-export default () => (
-  <Web3Container
-    renderLoading={() => <div>Loading Dapp Page...</div>}
-    render={({ web3, accounts, contract }) => (
-      <IndexItem accounts={accounts} contract={contract} web3={web3} />
-    )}
-  />
-)
+class Page extends React.Component {
+    render() {
+        return (
+            <Web3Container
+            renderLoading={() => <div>Loading Dapp Page...</div>}
+            render={({ web3, accounts, contract }) => (
+              <IndexItem accounts={accounts} contract={contract} web3={web3} routers={this.props.router} />
+            )}
+          />
+        )
+    }
+}
+
+export default withRouter(Page)
+
+// export default ({url}) => (
+//   <Web3Container
+//     renderLoading={() => <div>Loading Dapp Page...</div>}
+//     render={({ web3, accounts, contract }) => (
+//       <IndexItem accounts={accounts} contract={contract} web3={web3} url={url}/>
+//     )}
+//   />
+// )

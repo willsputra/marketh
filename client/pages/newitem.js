@@ -22,12 +22,21 @@ class NewItem extends React.Component {
     event.preventDefault()
 
     const { accounts, contract } = this.props
-    const { storeId, imageUrl, title, description, price, quantity } = this.state
-    await contract.methods.addItem(storeId, imageUrl, title, description, price, quantity).send({
-      from: accounts[0],
-      gas: 4712388,
-      gasPrice: 100000000000
-    })
+    const {
+      storeId,
+      imageUrl,
+      title,
+      description,
+      price,
+      quantity
+    } = this.state
+    await contract.methods
+      .addItem(storeId, imageUrl, title, description, price, quantity)
+      .send({
+        from: accounts[0],
+        gas: 4712388,
+        gasPrice: 100000000000
+      })
   }
 
   render() {
