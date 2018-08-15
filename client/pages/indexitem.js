@@ -10,6 +10,7 @@ class IndexItem extends React.Component {
     items: []
   }
 
+
   async componentDidMount() {
 
     const { contract } = this.props
@@ -23,9 +24,15 @@ class IndexItem extends React.Component {
         })
     )
 
+    console.log(items)
+
+    const filteredItems = items.filter(item => item.storeId == this.props.routers.query.id)
+
+    console.log('filter',filteredItems)
+
     this.setState({
       itemsCount: itemsCount,
-      items: items
+      items: filteredItems
     })
   }
 
@@ -42,6 +49,7 @@ class IndexItem extends React.Component {
 
   render() {
     console.log(this.props)
+    console.log(this.state)
 
     return (
       <div>

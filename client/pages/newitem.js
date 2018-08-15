@@ -42,6 +42,11 @@ class NewItem extends React.Component {
   render() {
     return (
       <form onSubmit={this.addItem}>
+        <p>storeId</p>
+        <input
+          value={this.state.storeId}
+          onChange={event => this.setState({ storeId: event.target.value })}
+        />
         <p>imageUrl</p>
         <input
           value={this.state.imageUrl}

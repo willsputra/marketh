@@ -30,7 +30,7 @@ class IndexStore extends React.Component {
     return (
       <div>
         {this.state.stores.map((store, index) => (
-        <Link href={{ pathname: '/indexitem', query: { id: index }}}>
+        <Link href={{ pathname: '/indexitem', query: { id: index }}} as={`/store/${index}`}>
         <a>
           <div>
             <p>{store.imageUrl}</p>
