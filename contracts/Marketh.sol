@@ -1,6 +1,10 @@
 pragma solidity ^0.4.0;
 
+import "zeppelin/contracts/math/SafeMath.sol";
+
 contract Marketh {
+
+    using SafeMath for uint;
     
     struct Item {
         uint storeId;
@@ -27,7 +31,6 @@ contract Marketh {
     mapping(address => uint[]) public storeOwnerToStores;
     
     mapping(uint => uint) public itemToStore;
-    mapping(uint => uint[]) public storeToItems;
 
     address public admin;
 
@@ -59,13 +62,13 @@ contract Marketh {
     // FUNCTION addStoreOwner [ADMIN] PRIVATE
     function addStoreOwner(address _recipient) public onlyAdmin {
         storeOwners[_recipient] = true;
-        storeOwnersCount++;
+        storeOwnersCount = storeOwnersCount.add(1);
     }
 
     // FUNCTION removeStoreOwner [ADMIN] PRIVATE
     function removeStoreOwner(address _recipient) public onlyAdmin {
         storeOwners[_recipient] = false;
-        storeOwnersCount--;
+        storeOwnersCount = storeOwnersCount.sub(1);
     }
 
     // FUNCTION viewStoreOwners [ADMIN] PRIVATE
@@ -84,7 +87,7 @@ contract Marketh {
 
         stores.push(newStore);
 
-        storesCount++;
+        storesCount = storesCount.add(1);
     }
 
     // FUNCTION removeStore [STOREOWNER]
@@ -109,9 +112,8 @@ contract Marketh {
         items.push(newItem);
         
         itemToStore[itemsCount] = _storeId;
-        storeToItems[_storeId].push(itemsCount);
 
-        itemsCount++;
+        itemsCount = itemsCount.add(1);
      }
 
     // FUNCTION removeItem [STOREOWNER]
@@ -137,8 +139,8 @@ contract Marketh {
         require(msg.value == items[_itemId].price);
         require(items[_itemId].quantity > 0);
         
-        pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]] += items[_itemId].price;
-        items[_itemId].quantity--;
+        pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]] =  pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]].add(items[_itemId].price);
+        items[_itemId].quantity = items[_itemId].quantity.sub(1);
     }
     
 

@@ -1,6 +1,18 @@
 import React from 'react'
 import Web3Container from '../lib/Web3Container'
 import Link from 'next/link'
+import styled from 'styled-components'
+
+const StoreWrapper = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+`
+
+const Store = styled.div`
+    border: 1px solid black;
+    text-align: center;
+`
 
 class IndexStore extends React.Component {
   state = {
@@ -28,19 +40,19 @@ class IndexStore extends React.Component {
 
   render() {
     return (
-      <div>
+      <StoreWrapper>
         {this.state.stores.map((store, index) => (
         <Link href={{ pathname: '/indexitem', query: { id: index }}} as={`/store/${index}`}>
         <a>
-          <div>
+          <Store>
             <p>{store.imageUrl}</p>
             <p>{store.title}</p>
             <p>{store.description}</p>
-          </div>
+          </Store>
           </a>
           </Link>
         ))}
-      </div>
+      </StoreWrapper>
     )
   }
 }
