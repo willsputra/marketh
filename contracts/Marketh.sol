@@ -139,7 +139,7 @@ contract Marketh is Ownable {
         itemToStore[itemsCount] = _storeId;
 
         itemsCount = itemsCount.add(1);
-     }
+    }
 
     /** @dev Removes an Item.
       * @param _itemId ID of the Item (index in items array)
@@ -175,7 +175,8 @@ contract Marketh is Ownable {
         require(msg.value == items[_itemId].price, "Value transferred is not the same as price.");
         require(items[_itemId].quantity > 0, "This item is sold out.");
         
-        pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]] = pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]].add(items[_itemId].price);
+        pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]] = pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]]
+        .add(items[_itemId].price);
         items[_itemId].quantity = items[_itemId].quantity.sub(1);
     }
     
