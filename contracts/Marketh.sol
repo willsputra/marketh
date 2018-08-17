@@ -1,4 +1,4 @@
-pragma solidity 0.4.22;
+pragma solidity ^0.4.22;
 
 /** @dev Uses Zeppelin from EthPM (see installed_contracts) */
 import "zeppelin/contracts/math/SafeMath.sol";
@@ -183,12 +183,16 @@ contract Marketh is Ownable {
     /** @dev Withdraws the balance.
       */   
     function withdraw() public {
-
-        
         uint amount = pendingWithdrawals[msg.sender];
         // Prevent re-entrancy attacks
         pendingWithdrawals[msg.sender] = 0;
         msg.sender.transfer(amount);
+    }
+
+    /** @dev Fallback function.
+     */
+    function() external payable {
+
     }
 
 }
