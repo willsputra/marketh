@@ -1,5 +1,6 @@
-pragma solidity ^0.4.22;
+pragma solidity 0.4.22;
 
+/** @dev Uses Zeppelin from EthPM (see installed_contracts) */
 import "zeppelin/contracts/math/SafeMath.sol";
 import "zeppelin/contracts/ownership/Ownable.sol";
 
@@ -40,10 +41,9 @@ contract Marketh is Ownable {
     uint public storesCount;
     uint public itemsCount;
     
-    mapping (address => uint) pendingWithdrawals;
-    //GETTER FOR PENDINGWITHDRAWALS!!
+    mapping (address => uint) public pendingWithdrawals;
 
-    bool stopped; 
+    bool public stopped; 
 
     /** @dev Initialize CIRCUIT BREAKER */
     constructor() public {
