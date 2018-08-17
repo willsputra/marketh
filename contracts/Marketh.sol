@@ -1,8 +1,9 @@
 pragma solidity ^0.4.0;
 
 import "zeppelin/contracts/math/SafeMath.sol";
+import "zeppelin/contracts/ownership/Ownable.sol";
 
-contract Marketh {
+contract Marketh is Ownable {
 
     using SafeMath for uint;
     
@@ -32,8 +33,6 @@ contract Marketh {
     
     mapping(uint => uint) public itemToStore;
 
-    address public admin;
-
     mapping(address => bool) public storeOwners;
     
     uint public storeOwnersCount;
@@ -43,15 +42,17 @@ contract Marketh {
     mapping (address => uint) pendingWithdrawals;
     //GETTER FOR PENDINGWITHDRAWALS!!
 
+    bool stopped; 
+
     constructor() public {
-        admin = msg.sender;
+        // CIRCUIT BREAKER
+        stopped = false;
     }
 
-    // MODIFIER admin
-    modifier onlyAdmin() {
-        require(msg.sender == admin);
-        _;
+    function toggleContractActive() onlyOwner public {
+        stopped = !stopped;
     }
+
 
     // MODIFIER storeOwner
     modifier onlyStoreOwner(){
@@ -59,22 +60,30 @@ contract Marketh {
         _;
     }
 
-    // FUNCTION addStoreOwner [ADMIN] PRIVATE
-    function addStoreOwner(address _recipient) public onlyAdmin {
+    modifier stopInEmergency() {
+        if(!stopped) _;
+    }
+
+    modifier onlyInEmergency() {
+        if(stopped) _;
+    }
+
+    // FUNCTION addStoreOwner [OWNER] PRIVATE
+    function addStoreOwner(address _recipient) public onlyOwner stopInEmergency{
         storeOwners[_recipient] = true;
         storeOwnersCount = storeOwnersCount.add(1);
     }
 
-    // FUNCTION removeStoreOwner [ADMIN] PRIVATE
-    function removeStoreOwner(address _recipient) public onlyAdmin {
+    // FUNCTION removeStoreOwner [OWNER] PRIVATE
+    function removeStoreOwner(address _recipient) public onlyOwner stopInEmergency{
         storeOwners[_recipient] = false;
         storeOwnersCount = storeOwnersCount.sub(1);
     }
 
-    // FUNCTION viewStoreOwners [ADMIN] PRIVATE
+    // FUNCTION viewStoreOwners [OWNER] PRIVATE
 
     // FUNCTION addStore [STOREOWNER]
-    function addStore(string _imageUrl, string _title, string _description) public onlyStoreOwner {
+    function addStore(string _imageUrl, string _title, string _description) public onlyStoreOwner stopInEmergency {
         Store memory newStore = Store({
             imageUrl: _imageUrl,
             title: _title,
@@ -91,7 +100,7 @@ contract Marketh {
     }
 
     // FUNCTION removeStore [STOREOWNER]
-    function removeStore(uint _storeId) public onlyStoreOwner {
+    function removeStore(uint _storeId) public onlyStoreOwner stopInEmergency {
         stores[_storeId].active = false;
     }
 
@@ -117,7 +126,7 @@ contract Marketh {
      }
 
     // FUNCTION removeItem [STOREOWNER]
-    function removeItem(uint _itemId) public onlyStoreOwner {
+    function removeItem(uint _itemId) public onlyStoreOwner stopInEmergency {
         items[_itemId].active = false;
     }
 
@@ -134,7 +143,7 @@ contract Marketh {
 
 
     // FUNCTION buyItem [STOREOWNER | BUYER] [CANNOT BUY FROM OWN STORE]
-    function buy(uint _itemId) public payable {
+    function buy(uint _itemId) public payable stopInEmergency {
         require(msg.sender != storeToStoreOwner[items[_itemId].storeId]);
         require(msg.value == items[_itemId].price);
         require(items[_itemId].quantity > 0);
@@ -146,6 +155,8 @@ contract Marketh {
 
     // FUNCTION withdraw
     function withdraw() public {
+
+        
         uint amount = pendingWithdrawals[msg.sender];
         // Prevent re-entrancy attacks
         pendingWithdrawals[msg.sender] = 0;

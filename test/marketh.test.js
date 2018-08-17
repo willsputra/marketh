@@ -130,5 +130,5 @@ contract('Marketh', accounts => {
   //it should allow user to BUY an item
 
   //it should allow a user to WITHDRAW amount
-  
+
 })
