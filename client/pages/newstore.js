@@ -2,6 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import Web3Container from '../lib/Web3Container'
 
+import Header from '../components/Header'
+import PageWrapper from '../components/PageWrapper'
+
 class NewStore extends React.Component {
   constructor(props) {
     super(props)
@@ -29,24 +32,30 @@ class NewStore extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.addStore}>
-        <p>imageUrl</p>
-        <input
-          value={this.state.imageUrl}
-          onChange={event => this.setState({ imageUrl: event.target.value })}
-        />
-        <p>title</p>
-        <input
-          value={this.state.title}
-          onChange={event => this.setState({ title: event.target.value })}
-        />
-        <p>description</p>
-        <input
-          value={this.state.description}
-          onChange={event => this.setState({ description: event.target.value })}
-        />
-        <button>Add Store</button>
-      </form>
+      <PageWrapper>
+        <Header />
+        {/* <Header accounts = {this.props.accounts}/> */}
+        <form onSubmit={this.addStore}>
+          <p>imageUrl</p>
+          <input
+            value={this.state.imageUrl}
+            onChange={event => this.setState({ imageUrl: event.target.value })}
+          />
+          <p>title</p>
+          <input
+            value={this.state.title}
+            onChange={event => this.setState({ title: event.target.value })}
+          />
+          <p>description</p>
+          <input
+            value={this.state.description}
+            onChange={event =>
+              this.setState({ description: event.target.value })
+            }
+          />
+          <button>Add Store</button>
+        </form>
+      </PageWrapper>
     )
   }
 }

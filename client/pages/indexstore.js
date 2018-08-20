@@ -3,15 +3,22 @@ import Web3Container from '../lib/Web3Container'
 import Link from 'next/link'
 import styled from 'styled-components'
 
+import Header from '../components/Header'
+import PageWrapper from '../components/PageWrapper'
+
 const StoreWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
 `
 
 const Store = styled.div`
-    border: 1px solid black;
-    text-align: center;
+  background: white;
+  padding: 30px;
+`
+
+const StoreTitle = styled.h2 `
+  margin-bottom: -10px;
 `
 
 class IndexStore extends React.Component {
@@ -40,23 +47,28 @@ class IndexStore extends React.Component {
 
   render() {
     return (
-      <StoreWrapper>
-        {this.state.stores.map((store, index) => (
-        <Link href={{ pathname: '/indexitem', query: { id: index }}} as={`/store/${index}`}>
-        <a>
-          <Store>
-            <p>{store.imageUrl}</p>
-            <p>{store.title}</p>
-            <p>{store.description}</p>
-          </Store>
-          </a>
-          </Link>
-        ))}
-      </StoreWrapper>
+      <PageWrapper>
+        <Header />
+        <StoreWrapper>
+          {this.state.stores.map((store, index) => (
+            <Link
+              href={{ pathname: '/indexitem', query: { id: index } }}
+              as={`/store/${index}`}
+            >
+              <a>
+                <Store>
+                  <p>{store.imageUrl}</p>
+                  <StoreTitle>{store.title}</StoreTitle>
+                  <p>{store.description}</p>
+                </Store>
+              </a>
+            </Link>
+          ))}
+        </StoreWrapper>
+      </PageWrapper>
     )
   }
 }
-
 
 export default () => (
   <Web3Container

@@ -2,6 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import Web3Container from '../lib/Web3Container'
 
+import Header from '../components/Header'
+import PageWrapper from '../components/PageWrapper'
+
 class NewItem extends React.Component {
   constructor(props) {
     super(props)
@@ -14,12 +17,14 @@ class NewItem extends React.Component {
     imageUrl: '',
     title: '',
     description: '',
-    price: '',
-    quantity: ''
+    price: undefined,
+    quantity: undefined
   }
 
   async addItem(event) {
     event.preventDefault()
+
+    console.log(this.state)
 
     const { accounts, contract } = this.props
     const {
@@ -31,7 +36,14 @@ class NewItem extends React.Component {
       quantity
     } = this.state
     await contract.methods
-      .addItem(storeId, imageUrl, title, description, price, quantity)
+      .addItem(
+        storeId,
+        imageUrl,
+        title,
+        description,
+        window.web3.toWei(price, 'ether'),
+        quantity
+      )
       .send({
         from: accounts[0],
         gas: 4712388,
@@ -41,39 +53,44 @@ class NewItem extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.addItem}>
-        <p>storeId</p>
-        <input
-          value={this.state.storeId}
-          onChange={event => this.setState({ storeId: event.target.value })}
-        />
-        <p>imageUrl</p>
-        <input
-          value={this.state.imageUrl}
-          onChange={event => this.setState({ imageUrl: event.target.value })}
-        />
-        <p>title</p>
-        <input
-          value={this.state.title}
-          onChange={event => this.setState({ title: event.target.value })}
-        />
-        <p>description</p>
-        <input
-          value={this.state.description}
-          onChange={event => this.setState({ description: event.target.value })}
-        />
-        <p>price</p>
-        <input
-          value={this.state.price}
-          onChange={event => this.setState({ price: event.target.value })}
-        />
-        <p>quantity</p>
-        <input
-          value={this.state.quantity}
-          onChange={event => this.setState({ quantity: event.target.value })}
-        />
-        <button>Add Item</button>
-      </form>
+      <PageWrapper>
+        <Header />
+        <form onSubmit={this.addItem}>
+          <p>storeId</p>
+          <input
+            value={this.state.storeId}
+            onChange={event => this.setState({ storeId: event.target.value })}
+          />
+          <p>imageUrl</p>
+          <input
+            value={this.state.imageUrl}
+            onChange={event => this.setState({ imageUrl: event.target.value })}
+          />
+          <p>title</p>
+          <input
+            value={this.state.title}
+            onChange={event => this.setState({ title: event.target.value })}
+          />
+          <p>description</p>
+          <input
+            value={this.state.description}
+            onChange={event =>
+              this.setState({ description: event.target.value })
+            }
+          />
+          <p>price</p>
+          <input
+            value={this.state.price}
+            onChange={event => this.setState({ price: event.target.value })}
+          />
+          <p>quantity</p>
+          <input
+            value={this.state.quantity}
+            onChange={event => this.setState({ quantity: event.target.value })}
+          />
+          <button>Add Item</button>
+        </form>
+      </PageWrapper>
     )
   }
 }

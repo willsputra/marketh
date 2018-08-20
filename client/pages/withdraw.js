@@ -2,11 +2,15 @@ import React from 'react'
 import Link from 'next/link'
 import Web3Container from '../lib/Web3Container'
 
+import Header from '../components/Header'
+import PageWrapper from '../components/PageWrapper'
+
 class Withdraw extends React.Component {
   constructor(props) {
     super(props)
 
     this.withdraw = this.withdraw.bind(this)
+    this.getPendingWithdrawals = this.getPendingWithdrawals.bind(this)
   }
 
   state = {
@@ -18,21 +22,28 @@ class Withdraw extends React.Component {
     const pendingWithdrawals = await contract.methods.pendingWithdrawals(accounts[0]).call()
 
     this.setState ({
-      pendingWithdrawals: pending
+      pendingWithdrawals: window.web3.fromWei(pendingWithdrawals, 'ether')
     })
   }
 
   async withdraw() {
     const { accounts, contract } = this.props
     await contract.methods.withdraw().send({
-      from: accounts[0]
+      from: accounts[0],
+      gas: 4712388,
+      gasPrice: 100000000000
     })
   }
 
   render() {
-    {this.getPendingWithdrawals()}
-    <p>{this.state.pendingWithdrawals}</p>
-    return <button onClick={this.withdraw}>Withdraw</button>
+    this.getPendingWithdrawals()
+    return(
+    <PageWrapper>
+      <Header />
+      <p>{this.state.pendingWithdrawals}</p>
+      <button onClick={this.withdraw}>Withdraw</button>
+    </PageWrapper>
+    )
   }
 }
 

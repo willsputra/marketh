@@ -1,9 +1,18 @@
+var HDWalletProvider = require("truffle-hdwallet-provider");
+var mnemonic = "hollow eye race unfold leaf way naive trumpet method diamond uncover cruise";
+
 module.exports = {
   networks: {
     development: {
       host: 'localhost',
       port: 8545,
       network_id: '*' // Match any network id
+    },
+    rinkeby: {
+      provider: function() {
+        return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/v3/b3d0693a1f4e43dea3c31b29a4655049");
+      },
+      network_id: 4
     }
   },
   solc: {

@@ -2,11 +2,14 @@ import React from 'react'
 import Link from 'next/link'
 import Web3Container from '../lib/Web3Container'
 
+import Header from '../components/Header'
+import PageWrapper from '../components/PageWrapper'
+
 class Dapp extends React.Component {
 
   constructor(props) {
     super(props)
-    this.getAdmin = this.getAdmin.bind(this)
+    // this.getAdmin = this.getAdmin.bind(this)
     this.addStoreOwner = this.addStoreOwner.bind(this)
     this.getStoreOwnersCount = this.getStoreOwnersCount.bind(this)
     this.storeOwners = this.storeOwners.bind(this)
@@ -15,20 +18,20 @@ class Dapp extends React.Component {
   state = {
     balance: undefined,
     ethBalance: undefined,
-    admin: undefined,
+    // admin: undefined,
     storeOwner: undefined,
     storeOwnersCount: undefined,
     storeOwners: undefined,
     isStoreOwner: undefined
   };
     
-  async getAdmin() {
-    const { accounts, contract } = this.props
-    const response = await contract.methods.admin().call()
-    this.setState({
-      admin: response
-    })
-  }
+  // async getAdmin() {
+  //   const { accounts, contract } = this.props
+  //   const response = await contract.methods.admin().call()
+  //   this.setState({
+  //     admin: response
+  //   })
+  // }
 
   async addStoreOwner(event) {
     event.preventDefault()
@@ -57,11 +60,12 @@ class Dapp extends React.Component {
   }
 
   
-  render () {
+  render (accounts) {
     return(
-    <div>
-      <button onClick={this.getAdmin}>Admin</button>
-      <p>{this.state.admin}</p>
+    <PageWrapper>
+      <Header />
+      {/* <button onClick={this.getAdmin}>Admin</button>
+      <p>{this.state.admin}</p> */}
       <button onClick={this.getStoreOwnersCount}>Store Owner Count</button>
       <p>{this.state.storeOwnersCount}</p>
 
@@ -77,7 +81,7 @@ class Dapp extends React.Component {
       <button>Check</button>
       </form>
       <p>{this.state.isStoreOwner}</p>
-    </div>
+    </PageWrapper>
     )
   }
 

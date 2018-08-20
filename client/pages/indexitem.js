@@ -1,9 +1,36 @@
 import React from 'react'
 import Web3Container from '../lib/Web3Container'
 import {withRouter} from 'next/router'
+import styled from 'styled-components'
+
+import Header from '../components/Header'
+import PageWrapper from '../components/PageWrapper'
+
+const ItemWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+`
+
+const Item = styled.div`
+  background: white;
+  padding: 30px;
+`
+
+const ItemTitle = styled.h2 `
+  margin-bottom: -10px;
+`
+
+const BuyButton = styled.button `
+  background: #56C99D;
+  color: white;
+  padding: 10px 40px;
+  border: 0px;
+  border-radius: 5px;
+  cursor: pointer;
+`
 
 class IndexItem extends React.Component {
-
 
   state = {
     itemsCount: '',
@@ -52,18 +79,23 @@ class IndexItem extends React.Component {
     console.log(this.state)
 
     return (
-      <div>
+      <PageWrapper>
+        <Header />
+        <ItemWrapper>
         {this.state.items.map((item, index) => (
-          <div>
+            <Item>
             <p><strong>store {item.storeId}</strong></p>
             <p>{item.imageUrl}</p>
-            <p>{item.title}</p>
+            <ItemTitle>{item.title}</ItemTitle>
             <p>{item.description}</p>
+            <p>{item.price}</p>
+            <p>{item.quantity}</p>
             <p>{index}</p>
-            <button onClick={() => this.buy(index, item.price)}>Buy</button>
-          </div>
+            <BuyButton onClick={() => this.buy(index, item.price)}>Buy</BuyButton>
+            </Item>
         ))}
-      </div>
+        </ItemWrapper>
+      </PageWrapper>
     )
   }
 }
