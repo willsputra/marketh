@@ -1,5 +1,7 @@
+require('dotenv').config();
+
 var HDWalletProvider = require("truffle-hdwallet-provider");
-var mnemonic = "hollow eye race unfold leaf way naive trumpet method diamond uncover cruise";
+var mnemonic = new Buffer(process.env["MAINNET_PRIVATE_KEY"],"hex");
 
 module.exports = {
   networks: {
