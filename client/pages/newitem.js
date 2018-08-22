@@ -10,6 +10,15 @@ import PageWrapper from '../components/PageWrapper'
 
 import keys from '../config/keys'
 
+const dropzoneStyle = {
+  cursor: "pointer",
+  maxWidth: "200px",
+  background: "#F0F1F5",
+  padding: "20px",
+  border: "#DBDBDE solid 2px",
+  margin: "20px 0px"
+}
+
 class NewItem extends React.Component {
   constructor(props) {
     super(props)
@@ -87,11 +96,6 @@ class NewItem extends React.Component {
         })
     })
 
-    // // Once all the files are uploaded
-    // axios.all(uploaders).then(() => {
-    //   console.log(data.secur)
-
-    // })
   }
 
   render() {
@@ -133,11 +137,12 @@ class NewItem extends React.Component {
           />
           <Dropzone
             onDrop={this.handleDrop}
-            multiple
+            style={dropzoneStyle}
             accept="image/*"
           >
             <p>Drop your files or click here to upload</p>
           </Dropzone>
+          <img src = {this.state.imageUrl} />
           <button>Add Item</button>
         </form>
       </PageWrapper>

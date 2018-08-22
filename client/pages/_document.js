@@ -17,6 +17,24 @@ injectGlobal`
     a {
         text-decoration: none;
     }
+    img {
+      max-width: 200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    p {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 400;
+      color: #35353E;
+      font-size: 14px;
+    }
+    h2 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 700;
+      color: #35353E;
+      font-size: 20px;
+    }
+    
 `
 
 export default class MyCustomDocument extends Document {
@@ -33,7 +51,7 @@ export default class MyCustomDocument extends Document {
         <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
           <link href="/static/favicon.ico" rel="shortcut icon" />
-          <link href="https://fonts.googleapis.com/css?family=Barlow:500|Zilla+Slab:700" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,700" rel="stylesheet" />
           {this.props.styleTags}
         </Head>
         <body>

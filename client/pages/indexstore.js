@@ -2,6 +2,7 @@ import React from 'react'
 import Web3Container from '../lib/Web3Container'
 import Link from 'next/link'
 import styled from 'styled-components'
+import Dotdotdot from 'react-dotdotdot'
 
 import Header from '../components/Header'
 import PageWrapper from '../components/PageWrapper'
@@ -19,6 +20,11 @@ const Store = styled.div`
 
 const StoreTitle = styled.h2 `
   margin-bottom: -10px;
+`
+
+const StoreImg = styled.img `
+  width: 100%;
+  margin: 0 auto;
 `
 
 class IndexStore extends React.Component {
@@ -57,9 +63,9 @@ class IndexStore extends React.Component {
             >
               <a>
                 <Store>
-                  <p>{store.imageUrl}</p>
+                  <StoreImg src={store.imageUrl} />
                   <StoreTitle>{store.title}</StoreTitle>
-                  <p>{store.description}</p>
+                  <Dotdotdot clamp={2}><p>{store.description}</p></Dotdotdot>
                 </Store>
               </a>
             </Link>

@@ -85,7 +85,7 @@ class IndexItem extends React.Component {
         {this.state.items.map((item, index) => (
             <Item>
             <p><strong>store {item.storeId}</strong></p>
-            <p>{item.imageUrl}</p>
+            <img src = {item.imageUrl} />
             <ItemTitle>{item.title}</ItemTitle>
             <p>{item.description}</p>
             <p>{item.price}</p>
