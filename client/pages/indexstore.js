@@ -18,20 +18,20 @@ const Store = styled.div`
   padding: 30px;
   height: 250px;
   border-radius: 5px;
-  box-shadow: 0px 3px 8px #EDEEF0;
+  box-shadow: 0px 3px 8px #edeef0;
 `
 
-const StoreTitle = styled.h2 `
+const StoreTitle = styled.h2`
   margin-bottom: -10px;
 `
 
-const StoreImg = styled.img `
+const StoreImg = styled.img`
   width: 100%;
   margin: 0 auto;
 `
 
-const NewStoreButton = styled.button `
-  background: #56C99D;
+const NewStoreButton = styled.button`
+  background: #56c99d;
   color: white;
   padding: 15px 40px;
   border: 0px;
@@ -40,14 +40,16 @@ const NewStoreButton = styled.button `
   margin: 50px auto;
 `
 
-
 class IndexStore extends React.Component {
   state = {
     storesCount: '',
-    stores: []
+    stores: [],
+    isStoreOwner: false
   }
 
   async componentDidMount() {
+
+
     const { accounts, contract } = this.props
     const storesCount = await contract.methods.storesCount().call()
 
@@ -59,13 +61,29 @@ class IndexStore extends React.Component {
         })
     )
 
+    const storeOwner = await contract.methods.storeOwners(accounts[0]).call()
+
     this.setState({
       storesCount: storesCount,
-      stores: stores
+      stores: stores,
+      isStoreOwner: storeOwner
     })
   }
-
   render() {
+
+    
+    let newStore
+    if (this.state.isStoreOwner) {
+      newStore = (
+        <Link href={{ pathname: '/newstore' }}>
+          <a>
+            <NewStoreButton>Add New Store</NewStoreButton>
+          </a>
+        </Link>
+      )
+    }
+
+    console.log(this.state)
     return (
       <PageWrapper>
         <Header />
@@ -79,13 +97,15 @@ class IndexStore extends React.Component {
                 <Store>
                   <StoreImg src={store.imageUrl} />
                   <StoreTitle>{store.title}</StoreTitle>
-                  <Dotdotdot clamp={2}><p>{store.description}</p></Dotdotdot>
+                  <Dotdotdot clamp={2}>
+                    <p>{store.description}</p>
+                  </Dotdotdot>
                 </Store>
               </a>
             </Link>
           ))}
         </StoreWrapper>
-        <Link href = {{ pathname: '/newstore' }}><a><NewStoreButton>Add New Store</NewStoreButton></a></Link>
+        {newStore}
       </PageWrapper>
     )
   }

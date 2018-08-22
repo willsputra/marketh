@@ -45,13 +45,14 @@ class IndexItem extends React.Component {
 
   state = {
     itemsCount: '',
-    items: []
+    items: [],
+    isStoreOwner: false
   }
 
 
   async componentDidMount() {
 
-    const { contract } = this.props
+    const { contract, accounts } = this.props
     const itemsCount = await contract.methods.itemsCount().call()
 
     const items = await Promise.all(
@@ -68,9 +69,13 @@ class IndexItem extends React.Component {
 
     console.log('filter',filteredItems)
 
+    const storeOwner = await contract.methods.storeToStoreOwner(this.props.routers.query.id).call()
+    const isStoreOwner = storeOwner == accounts[0]
+
     this.setState({
       itemsCount: itemsCount,
-      items: filteredItems
+      items: filteredItems,
+      isStoreOwner: isStoreOwner
     })
   }
 
@@ -86,8 +91,15 @@ class IndexItem extends React.Component {
   }
 
   render() {
-    console.log(this.props)
-    console.log(this.state)
+
+    let newItem
+    if (this.state.isStoreOwner) {
+      newItem = (
+        <Link
+              href={{ pathname: '/newitem', query: { id: this.props.routers.query.id } }} as={`/newitem/${this.props.routers.query.id}`}
+          ><NewItemButton>Add New Item</NewItemButton></Link>
+      )
+    }
 
     return (
       <PageWrapper>
@@ -104,9 +116,7 @@ class IndexItem extends React.Component {
             </Item>
         ))}
         </ItemWrapper>
-        <Link
-              href={{ pathname: '/newitem', query: { id: this.props.routers.query.id } }} as={`/newitem/${this.props.routers.query.id}`}
-          ><NewItemButton>Add New Item</NewItemButton></Link>
+      {newItem}
       </PageWrapper>
     )
   }

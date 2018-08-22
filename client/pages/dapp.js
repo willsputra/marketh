@@ -9,7 +9,6 @@ class Dapp extends React.Component {
 
   constructor(props) {
     super(props)
-    // this.getAdmin = this.getAdmin.bind(this)
     this.addStoreOwner = this.addStoreOwner.bind(this)
     this.getStoreOwnersCount = this.getStoreOwnersCount.bind(this)
     this.storeOwners = this.storeOwners.bind(this)
@@ -24,14 +23,6 @@ class Dapp extends React.Component {
     storeOwners: undefined,
     isStoreOwner: undefined
   };
-    
-  // async getAdmin() {
-  //   const { accounts, contract } = this.props
-  //   const response = await contract.methods.admin().call()
-  //   this.setState({
-  //     admin: response
-  //   })
-  // }
 
   async addStoreOwner(event) {
     event.preventDefault()
@@ -61,6 +52,7 @@ class Dapp extends React.Component {
 
   
   render (accounts) {
+
     return(
     <PageWrapper>
       <Header />
