@@ -16,7 +16,7 @@ const StoreWrapper = styled.div`
 const Store = styled.div`
   background: white;
   padding: 30px;
-  height: 250px;
+  height: 300px;
   border-radius: 5px;
   box-shadow: 0px 3px 8px #edeef0;
 `
@@ -26,8 +26,8 @@ const StoreTitle = styled.h2`
 `
 
 const StoreImg = styled.img`
-  width: 100%;
   margin: 0 auto;
+  max-height: 200px;
 `
 
 const NewStoreButton = styled.button`

@@ -49,7 +49,7 @@ class Withdraw extends React.Component {
 
 export default () => (
   <Web3Container
-    renderLoading={() => <div>Loading Dapp Page...</div>}
+    renderLoading={() => <PageWrapper><p>Loading Dapp Page...</p></PageWrapper>}
     render={({ web3, accounts, contract }) => (
       <Withdraw accounts={accounts} contract={contract} web3={web3} />
     )}

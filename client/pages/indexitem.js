@@ -18,6 +18,11 @@ const Item = styled.div`
   padding: 30px;
 `
 
+const ItemImg = styled.img`
+  margin: 0 auto;
+  max-height: 200px;
+`
+
 const ItemTitle = styled.h2 `
   margin-bottom: -10px;
 `
@@ -107,7 +112,7 @@ class IndexItem extends React.Component {
         <ItemWrapper>
         {this.state.items.map((item, index) => (
             <Item>
-            <img src={item.imageUrl} />
+            <ItemImg src={item.imageUrl} />
             <ItemTitle>{item.title}</ItemTitle>
             <p>{item.description}</p>
             <p>{window.web3.fromWei(item.price)} ETH</p>
@@ -126,7 +131,7 @@ class Page extends React.Component {
     render() {
         return (
             <Web3Container
-            renderLoading={() => <div>Loading Dapp Page...</div>}
+            renderLoading={() => <PageWrapper><p>Loading Dapp Page...</p></PageWrapper>}
             render={({ web3, accounts, contract }) => (
               <IndexItem accounts={accounts} contract={contract} web3={web3} routers={this.props.router} />
             )}
