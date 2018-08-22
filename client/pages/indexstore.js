@@ -16,6 +16,9 @@ const StoreWrapper = styled.div`
 const Store = styled.div`
   background: white;
   padding: 30px;
+  height: 250px;
+  border-radius: 5px;
+  box-shadow: 0px 3px 8px #EDEEF0;
 `
 
 const StoreTitle = styled.h2 `
@@ -26,6 +29,17 @@ const StoreImg = styled.img `
   width: 100%;
   margin: 0 auto;
 `
+
+const NewStoreButton = styled.button `
+  background: #56C99D;
+  color: white;
+  padding: 15px 40px;
+  border: 0px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 50px auto;
+`
+
 
 class IndexStore extends React.Component {
   state = {
@@ -71,6 +85,7 @@ class IndexStore extends React.Component {
             </Link>
           ))}
         </StoreWrapper>
+        <Link href = {{ pathname: '/newstore' }}><a><NewStoreButton>Add New Store</NewStoreButton></a></Link>
       </PageWrapper>
     )
   }

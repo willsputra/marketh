@@ -9,3 +9,8 @@
 • https://ethereum.stackexchange.com/questions/41858/transaction-gas-cost-in-truffle-test-case
 • https://ethereum.stackexchange.com/questions/30139/testing-contract-withdrawal-pattern-with-truffle
 • https://blog.codeinfuse.com/upload-multiple-files-to-cloudinary-using-react-dropzone-axios-27883c2a5ec6
+
+
+NOTES:
+• purchase history
+• error messages

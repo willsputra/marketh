@@ -16,6 +16,7 @@ injectGlobal`
     }
     a {
         text-decoration: none;
+        color: #56C99D;
     }
     img {
       max-width: 200px;

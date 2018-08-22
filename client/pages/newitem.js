@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Router, {withRouter} from 'next/router'
 import Web3Container from '../lib/Web3Container'
 
 import Dropzone from 'react-dropzone'
@@ -16,7 +17,7 @@ const dropzoneStyle = {
   background: "#F0F1F5",
   padding: "20px",
   border: "#DBDBDE solid 2px",
-  margin: "20px 0px"
+  margin: "10px 0px"
 }
 
 class NewItem extends React.Component {
@@ -28,13 +29,14 @@ class NewItem extends React.Component {
   }
 
   state = {
-    storeId: '',
+    storeId: this.props.routers.query.id,
     imageUrl: '',
     title: '',
     description: '',
     price: undefined,
     quantity: undefined
   }
+
 
   async addItem(event) {
     event.preventDefault()
@@ -64,6 +66,8 @@ class NewItem extends React.Component {
         gas: 4712388,
         gasPrice: 100000000000
       })
+
+    Router.push(`/store/${this.props.routers.query.id}`)
   }
 
   handleDrop = files => {
@@ -99,42 +103,44 @@ class NewItem extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <PageWrapper>
         <Header />
         <form onSubmit={this.addItem}>
-          <p>storeId</p>
+          {/* <p>storeId</p>
           <input
             value={this.state.storeId}
             onChange={event => this.setState({ storeId: event.target.value })}
-          />
+          /> */}
           {/* <p>imageUrl</p>
           <input
             value={this.state.imageUrl}
             onChange={event => this.setState({ imageUrl: event.target.value })}
           /> */}
-          <p>title</p>
+          <p>Item Name</p>
           <input
             value={this.state.title}
             onChange={event => this.setState({ title: event.target.value })}
           />
-          <p>description</p>
+          <p>Item Description</p>
           <input
             value={this.state.description}
             onChange={event =>
               this.setState({ description: event.target.value })
             }
           />
-          <p>price</p>
+          <p>Item Price</p>
           <input
             value={this.state.price}
             onChange={event => this.setState({ price: event.target.value })}
           />
-          <p>quantity</p>
+          <p>Item Quantity</p>
           <input
             value={this.state.quantity}
             onChange={event => this.setState({ quantity: event.target.value })}
           />
+          <p>Upload Image</p>
           <Dropzone
             onDrop={this.handleDrop}
             style={dropzoneStyle}
@@ -150,11 +156,17 @@ class NewItem extends React.Component {
   }
 }
 
-export default () => (
-  <Web3Container
-    renderLoading={() => <div>Loading Dapp Page...</div>}
-    render={({ web3, accounts, contract }) => (
-      <NewItem accounts={accounts} contract={contract} web3={web3} />
-    )}
-  />
-)
+class NewItemPage extends React.Component {
+  render(){
+    return (
+      <Web3Container
+      renderLoading={() => <div>Loading Dapp Page...</div>}
+      render={({ web3, accounts, contract }) => (
+        <NewItem accounts={accounts} contract={contract} web3={web3} routers={this.props.router}/>
+      )}
+    />
+    )
+  }  
+}
+
+export default withRouter(NewItemPage)

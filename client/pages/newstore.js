@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'next/link'
+import Router from 'next/router'
 import Web3Container from '../lib/Web3Container'
 
 import Dropzone from 'react-dropzone'
@@ -17,8 +17,19 @@ const dropzoneStyle = {
   background: "#F0F1F5",
   padding: "20px",
   border: "#DBDBDE solid 2px",
-  margin: "20px 0px"
+  margin: "10px 0px",
+  display: "block"
 }
+
+const NewStoreButton = styled.button `
+  background: #56C99D;
+  color: white;
+  padding: 15px 40px;
+  border: 0px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 50px auto;
+`
 
 class NewStore extends React.Component {
   constructor(props) {
@@ -43,6 +54,8 @@ class NewStore extends React.Component {
       gas: 4712388,
       gasPrice: 100000000000
     })
+
+    Router.push(`/indexstore`)
   }
 
 
@@ -82,6 +95,7 @@ class NewStore extends React.Component {
     return (
       <PageWrapper>
         <Header />
+        <h2>Add New Store</h2>
         {/* <Header accounts = {this.props.accounts}/> */}
         <form onSubmit={this.addStore}>
           {/* <p>imageUrl</p>
@@ -89,28 +103,29 @@ class NewStore extends React.Component {
             value={this.state.imageUrl}
             onChange={event => this.setState({ imageUrl: event.target.value })}
           /> */}
-          <p>title</p>
+          <p>Store Name</p>
           <input
             value={this.state.title}
             onChange={event => this.setState({ title: event.target.value })}
           />
-          <p>description</p>
+          <p>Store Description</p>
           <input
             value={this.state.description}
             onChange={event =>
               this.setState({ description: event.target.value })
             }
           />
-          <Dropzone
+          <p>Upload Store Image</p>
+          <div><Dropzone
             onDrop={this.handleDrop}
             style={dropzoneStyle}
             accept="image/*"
           >
             <p>Drop your files or click here to upload</p>
-          </Dropzone>
-          <img src = {this.state.imageUrl} />
+          </Dropzone></div>
+          <div><img src = {this.state.imageUrl} /></div>
 
-          <button>Add Store</button>
+          <NewStoreButton>Add Store</NewStoreButton>
         </form>
       </PageWrapper>
     )

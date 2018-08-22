@@ -1,5 +1,6 @@
 import React from 'react'
 import Web3Container from '../lib/Web3Container'
+import Link from 'next/link'
 import {withRouter} from 'next/router'
 import styled from 'styled-components'
 
@@ -26,8 +27,18 @@ const BuyButton = styled.button `
   color: white;
   padding: 10px 40px;
   border: 0px;
-  border-radius: 5px;
+  border-radius: 3px;
   cursor: pointer;
+`
+
+const NewItemButton = styled.button `
+  background: #56C99D;
+  color: white;
+  padding: 15px 40px;
+  border: 0px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 50px auto;
 `
 
 class IndexItem extends React.Component {
@@ -84,17 +95,18 @@ class IndexItem extends React.Component {
         <ItemWrapper>
         {this.state.items.map((item, index) => (
             <Item>
-            <p><strong>store {item.storeId}</strong></p>
-            <img src = {item.imageUrl} />
+            <img src={item.imageUrl} />
             <ItemTitle>{item.title}</ItemTitle>
             <p>{item.description}</p>
-            <p>{item.price}</p>
-            <p>{item.quantity}</p>
-            <p>{index}</p>
+            <p>{window.web3.fromWei(item.price)} ETH</p>
+            <p>Only {item.quantity} left!</p>
             <BuyButton onClick={() => this.buy(index, item.price)}>Buy</BuyButton>
             </Item>
         ))}
         </ItemWrapper>
+        <Link
+              href={{ pathname: '/newitem', query: { id: this.props.routers.query.id } }} as={`/newitem/${this.props.routers.query.id}`}
+          ><NewItemButton>Add New Item</NewItemButton></Link>
       </PageWrapper>
     )
   }
