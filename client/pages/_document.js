@@ -19,8 +19,8 @@ injectGlobal`
         color: #56C99D;
     }
     img {
-      max-width: 200px;
-      width: 100%;
+      max-height: 100%;
+      width: auto;
       margin: 0 auto;
     }
     p {

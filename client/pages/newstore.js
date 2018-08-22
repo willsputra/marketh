@@ -14,10 +14,10 @@ import PageWrapper from '../components/PageWrapper'
 const dropzoneStyle = {
   cursor: "pointer",
   maxWidth: "200px",
+  maxHeight: "100px",
   background: "#F0F1F5",
   padding: "20px",
   border: "#DBDBDE solid 2px",
-  margin: "10px 0px",
   display: "block"
 }
 
@@ -31,6 +31,17 @@ const NewStoreButton = styled.button `
   margin: 50px auto;
 `
 
+const ImageUploadWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin: 20px 0;
+  max-width: 500px;
+`
+
+const UploadedImage = styled.div`
+  max-height: 100px
+`
+
 class NewStore extends React.Component {
   constructor(props) {
     super(props)
@@ -41,7 +52,8 @@ class NewStore extends React.Component {
   state = {
     imageUrl: undefined,
     title: undefined,
-    description: undefined
+    description: undefined,
+    isLoading: false
   }
 
   async addStore(event) {
@@ -60,6 +72,10 @@ class NewStore extends React.Component {
 
 
   handleDrop = files => {
+
+    this.setState ({
+      isLoading: true
+    })
     // Push all the axios request promise into a single array
     const uploaders = files.map(file => {
       // Initial FormData
@@ -84,14 +100,23 @@ class NewStore extends React.Component {
           const fileUrl = data.secure_url // You should store this URL for future references in your app
           console.log(fileUrl)
           this.setState({
-            imageUrl: fileUrl
+            imageUrl: fileUrl,
+            isLoading: false
           })
         })
     })
-
   }
 
+
+
   render() {
+    let button
+    if (this.state.isLoading == true) {
+      button = <p>Uploading image...</p>
+    } else {
+      button = <NewStoreButton>Add Store</NewStoreButton>
+    }
+    
     return (
       <PageWrapper>
         <Header />
@@ -116,6 +141,7 @@ class NewStore extends React.Component {
             }
           />
           <p>Upload Store Image</p>
+          <ImageUploadWrapper>
           <div><Dropzone
             onDrop={this.handleDrop}
             style={dropzoneStyle}
@@ -123,9 +149,9 @@ class NewStore extends React.Component {
           >
             <p>Drop your files or click here to upload</p>
           </Dropzone></div>
-          <div><img src = {this.state.imageUrl} /></div>
-
-          <NewStoreButton>Add Store</NewStoreButton>
+          <UploadedImage><img src = {this.state.imageUrl} /></UploadedImage>
+          </ImageUploadWrapper>
+          {button}
         </form>
       </PageWrapper>
     )

@@ -1,8 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-import Router, {withRouter} from 'next/router'
+import Router, { withRouter } from 'next/router'
 import Web3Container from '../lib/Web3Container'
 
+import styled from 'styled-components'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
 
@@ -12,13 +13,33 @@ import PageWrapper from '../components/PageWrapper'
 import keys from '../config/keys'
 
 const dropzoneStyle = {
-  cursor: "pointer",
-  maxWidth: "200px",
-  background: "#F0F1F5",
-  padding: "20px",
-  border: "#DBDBDE solid 2px",
-  margin: "10px 0px"
+  cursor: 'pointer',
+  maxWidth: '200px',
+  background: '#F0F1F5',
+  padding: '20px',
+  border: '#DBDBDE solid 2px',
 }
+
+const ImageUploadWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin: 20px 0;
+  max-width: 500px;
+`
+
+const UploadedImage = styled.div`
+  max-height: 100px
+`
+
+const NewItemButton = styled.button `
+  background: #56C99D;
+  color: white;
+  padding: 15px 40px;
+  border: 0px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 50px auto;
+`
 
 class NewItem extends React.Component {
   constructor(props) {
@@ -34,9 +55,9 @@ class NewItem extends React.Component {
     title: '',
     description: '',
     price: undefined,
-    quantity: undefined
+    quantity: undefined,
+    isLoading: false
   }
-
 
   async addItem(event) {
     event.preventDefault()
@@ -72,6 +93,9 @@ class NewItem extends React.Component {
 
   handleDrop = files => {
     // Push all the axios request promise into a single array
+    this.setState({
+      isLoading: true
+    })
     const uploaders = files.map(file => {
       // Initial FormData
       const formData = new FormData()
@@ -95,15 +119,23 @@ class NewItem extends React.Component {
           const fileUrl = data.secure_url // You should store this URL for future references in your app
           console.log(fileUrl)
           this.setState({
-            imageUrl: fileUrl
+            imageUrl: fileUrl,
+            isLoading: false
           })
         })
     })
-
   }
 
   render() {
     console.log(this.state)
+
+    let button
+    if (this.state.isLoading == true) {
+      button = <p>Uploading image...</p>
+    } else {
+      button = <NewItemButton>Add Item</NewItemButton>
+    }
+
     return (
       <PageWrapper>
         <Header />
@@ -141,6 +173,7 @@ class NewItem extends React.Component {
             onChange={event => this.setState({ quantity: event.target.value })}
           />
           <p>Upload Image</p>
+          <ImageUploadWrapper>
           <Dropzone
             onDrop={this.handleDrop}
             style={dropzoneStyle}
@@ -148,8 +181,9 @@ class NewItem extends React.Component {
           >
             <p>Drop your files or click here to upload</p>
           </Dropzone>
-          <img src = {this.state.imageUrl} />
-          <button>Add Item</button>
+          <UploadedImage><img src={this.state.imageUrl} /></UploadedImage>
+          </ImageUploadWrapper>
+          {button}
         </form>
       </PageWrapper>
     )
@@ -157,16 +191,21 @@ class NewItem extends React.Component {
 }
 
 class NewItemPage extends React.Component {
-  render(){
+  render() {
     return (
       <Web3Container
-      renderLoading={() => <div>Loading Dapp Page...</div>}
-      render={({ web3, accounts, contract }) => (
-        <NewItem accounts={accounts} contract={contract} web3={web3} routers={this.props.router}/>
-      )}
-    />
+        renderLoading={() => <div>Loading Dapp Page...</div>}
+        render={({ web3, accounts, contract }) => (
+          <NewItem
+            accounts={accounts}
+            contract={contract}
+            web3={web3}
+            routers={this.props.router}
+          />
+        )}
+      />
     )
-  }  
+  }
 }
 
 export default withRouter(NewItemPage)
