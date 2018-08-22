@@ -26,7 +26,7 @@ const Header = ({ accounts }) => (
     <Link href = {{pathname: '/indexstore'}}><a><HeaderTitle>MARKETH</HeaderTitle></a></Link>
     <Nav>
       <p>{accounts}</p>
-      <p><a>PURCHASE HISTORY</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a>MANAGE STORE</a></p>
+      <p><Link href = {{pathname: '/purchasehistory'}}><a>PURCHASE HISTORY</a></Link></p>
     </Nav>
     </HeaderWrapper>
 )

@@ -9,18 +9,21 @@ import PageWrapper from '../components/PageWrapper'
 
 const ItemWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
 `
 
 const Item = styled.div`
   background: white;
-  padding: 30px;
+  padding: 20px;
 `
 
-const ItemImg = styled.img`
+const ItemImg = styled.div`
   margin: 0 auto;
-  max-height: 200px;
+  height: 200px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 `
 
 const ItemTitle = styled.h2 `
@@ -112,7 +115,7 @@ class IndexItem extends React.Component {
         <ItemWrapper>
         {this.state.items.map((item, index) => (
             <Item>
-            <ItemImg src={item.imageUrl} />
+            <ItemImg style={{backgroundImage: `url(${item.imageUrl})`}} />
             <ItemTitle>{item.title}</ItemTitle>
             <p>{item.description}</p>
             <p>{window.web3.fromWei(item.price)} ETH</p>

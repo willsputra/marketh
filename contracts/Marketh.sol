@@ -35,6 +35,8 @@ contract Marketh is Ownable {
     
     mapping(uint => uint) public itemToStore;
 
+    mapping(address => uint[]) public addressToItems;
+
     mapping(address => bool) public storeOwners;
     
     uint public storeOwnersCount;
@@ -175,6 +177,8 @@ contract Marketh is Ownable {
         require(msg.value == items[_itemId].price, "Value transferred is not the same as price.");
         require(items[_itemId].quantity > 0, "This item is sold out.");
         
+        addressToItems[msg.sender].push(_itemId);
+        
         pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]] = pendingWithdrawals[storeToStoreOwner[items[_itemId].storeId]]
         .add(items[_itemId].price);
         items[_itemId].quantity = items[_itemId].quantity.sub(1);
@@ -187,6 +191,13 @@ contract Marketh is Ownable {
         // Prevent re-entrancy attacks
         pendingWithdrawals[msg.sender] = 0;
         msg.sender.transfer(amount);
+    }
+
+    /**@dev Get purchase history of an address.
+     * @param _address Address of the buyer
+     */
+    function getPurchaseHistory(address _address) public view returns (uint[]){
+        return addressToItems[_address];
     }
 
     /** @dev Fallback function.

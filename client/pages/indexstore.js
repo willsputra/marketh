@@ -15,7 +15,7 @@ const StoreWrapper = styled.div`
 
 const Store = styled.div`
   background: white;
-  padding: 30px;
+  padding: 20px;
   height: 300px;
   border-radius: 5px;
   box-shadow: 0px 3px 8px #edeef0;
@@ -25,9 +25,12 @@ const StoreTitle = styled.h2`
   margin-bottom: -10px;
 `
 
-const StoreImg = styled.img`
+const StoreImg = styled.div`
   margin: 0 auto;
-  max-height: 200px;
+  height: 200px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 `
 
 const NewStoreButton = styled.button`
@@ -95,7 +98,7 @@ class IndexStore extends React.Component {
             >
               <a>
                 <Store>
-                  <StoreImg src={store.imageUrl} />
+                  <StoreImg style={{backgroundImage: `url(${store.imageUrl})`}}></StoreImg>
                   <StoreTitle>{store.title}</StoreTitle>
                   <Dotdotdot clamp={2}>
                     <p>{store.description}</p>
@@ -113,7 +116,7 @@ class IndexStore extends React.Component {
 
 export default () => (
   <Web3Container
-    renderLoading={() => <div>Loading Dapp Page...</div>}
+    renderLoading={() => <PageWrapper><p>Loading Dapp Page...</p></PageWrapper>}
     render={({ web3, accounts, contract }) => (
       <IndexStore accounts={accounts} contract={contract} web3={web3} />
     )}
