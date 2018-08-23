@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 var HDWalletProvider = require("truffle-hdwallet-provider");
-var mnemonic = new Buffer(process.env["MAINNET_PRIVATE_KEY"],"hex");
+var mnemonic = process.env.MAINNET_PRIVATE_KEY;
 
 module.exports = {
   networks: {

@@ -83,9 +83,9 @@ class NewItem extends React.Component {
         quantity
       )
       .send({
-        from: accounts[0],
-        gas: 4712388,
-        gasPrice: 100000000000
+        from: accounts[s0],
+        gas: 4000000,
+        gasPrice: 4000000000
       })
 
     Router.push(`/store/${this.props.routers.query.id}`)
@@ -194,7 +194,7 @@ class NewItemPage extends React.Component {
   render() {
     return (
       <Web3Container
-        renderLoading={() => <div>Loading Dapp Page...</div>}
+        renderLoading={() => <PageWrapper><p>Loading Dapp Page...</p></PageWrapper>}
         render={({ web3, accounts, contract }) => (
           <NewItem
             accounts={accounts}

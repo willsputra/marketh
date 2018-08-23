@@ -1,3 +1,4 @@
+
 const Marketh = artifacts.require('./Marketh.sol')
 
 contract('Marketh', accounts => {
@@ -127,8 +128,37 @@ contract('Marketh', accounts => {
     assert.equal(items[5], 7, 'The value is wrong')
   })
 
-  //it should allow user to BUY an item
 
-  //it should allow a user to WITHDRAW amount
+  //it should display correct PURCHASE HISTORY
+  it('should display the correct purchase history', async () => {
+    const markethInstance = await Marketh.deployed()
+
+    await markethInstance.addStoreOwner(accounts[1])
+    await markethInstance.addStore('imgurl', 'title', 'desc', {
+      from: accounts[1]
+    })
+
+    await markethInstance.addItem(0, 'imgurl', 'title', 'desc', 5, 4, {
+      from: accounts[1]
+    })
+
+
+    const items = await markethInstance.items(0)
+
+    await markethInstance.buy(0, { 
+      from: accounts[2],
+      value: items[4]
+    })
+
+    await markethInstance.buy(0, { 
+      from: accounts[2],
+      value: items[4]
+    })
+
+    const purchaseHistory = await markethInstance.getPurchaseHistory(accounts[2])
+
+    assert.equal(purchaseHistory.toString(1), [0,0], 'The value is wrong')
+
+  })
 
 })

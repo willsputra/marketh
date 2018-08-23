@@ -63,8 +63,8 @@ class NewStore extends React.Component {
     const { imageUrl, title, description } = this.state
     await contract.methods.addStore(imageUrl, title, description).send({
       from: accounts[0],
-      gas: 4712388,
-      gasPrice: 100000000000
+      gas: 4000000,
+      gasPrice: 4000000000
     })
 
     Router.push(`/indexstore`)
@@ -160,7 +160,7 @@ class NewStore extends React.Component {
 
 export default () => (
   <Web3Container
-    renderLoading={() => <div>Loading Dapp Page...</div>}
+    renderLoading={() => <PageWrapper><p>Loading Dapp Page...</p></PageWrapper>}
     render={({ web3, accounts, contract }) => (
       <NewStore accounts={accounts} contract={contract} web3={web3} />
     )}

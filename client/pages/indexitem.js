@@ -92,8 +92,8 @@ class IndexItem extends React.Component {
     
     await contract.methods.buy(itemId).send({
         from: accounts[0],
-        gas: 4712388,
-        gasPrice: 100000000000,
+        gas: 4000000,
+        gasPrice: 4000000000,
         value: value
     })
   }

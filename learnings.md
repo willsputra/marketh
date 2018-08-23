@@ -10,7 +10,7 @@
 • https://ethereum.stackexchange.com/questions/30139/testing-contract-withdrawal-pattern-with-truffle
 • https://blog.codeinfuse.com/upload-multiple-files-to-cloudinary-using-react-dropzone-axios-27883c2a5ec6
 
+https://github.com/zeit/now-cli/issues/1176 -- STALE LOCKFILE
 
 NOTES:
-• purchase history
 • error messages
