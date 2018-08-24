@@ -2,8 +2,9 @@
 const Marketh = artifacts.require('./Marketh.sol')
 
 contract('Marketh', accounts => {
+
   it('should set a store owner to true and increase storeOwnersCount to 1.', async () => {
-    const markethInstance = await Marketh.deployed()
+    const markethInstance = await Marketh.new()
 
     await markethInstance.addStoreOwner(accounts[1])
 
@@ -15,7 +16,7 @@ contract('Marketh', accounts => {
   })
 
   it('should remove a store owner', async () => {
-    const markethInstance = await Marketh.deployed()
+    const markethInstance = await Marketh.new()
 
     await markethInstance.addStoreOwner(accounts[1])
     await markethInstance.removeStoreOwner(accounts[1])
@@ -26,7 +27,7 @@ contract('Marketh', accounts => {
   })
 
   it('should allow a store owner to add a store and increase storesCount to 1', async () => {
-    const markethInstance = await Marketh.deployed()
+    const markethInstance = await Marketh.new()
 
     await markethInstance.addStoreOwner(accounts[1])
     await markethInstance.addStore('imgurl', 'title', 'desc', {
@@ -44,7 +45,7 @@ contract('Marketh', accounts => {
   })
 
   it('should allow a store owner to remove a store', async () => {
-    const markethInstance = await Marketh.deployed()
+    const markethInstance = await Marketh.new()
 
     await markethInstance.addStoreOwner(accounts[1])
     await markethInstance.addStore('imgurl', 'title', 'desc', {
@@ -59,7 +60,7 @@ contract('Marketh', accounts => {
   })
 
   it('should allow a store owner to add an item and increase itemsCount to 1', async () => {
-    const markethInstance = await Marketh.deployed()
+    const markethInstance = await Marketh.new()
 
     await markethInstance.addStoreOwner(accounts[1])
     await markethInstance.addStore('imgurl', 'title', 'desc', {
@@ -84,7 +85,7 @@ contract('Marketh', accounts => {
   })
 
   it('should allow a store owner to remove an item', async () => {
-    const markethInstance = await Marketh.deployed()
+    const markethInstance = await Marketh.new()
 
     await markethInstance.addStoreOwner(accounts[1])
     await markethInstance.addStore('imgurl', 'title', 'desc', {
@@ -103,7 +104,7 @@ contract('Marketh', accounts => {
   })
 
   it('should allow a store owner to edit an item', async () => {
-    const markethInstance = await Marketh.deployed()
+    const markethInstance = await Marketh.new()
 
     await markethInstance.addStoreOwner(accounts[1])
     await markethInstance.addStore('imgurl', 'title', 'desc', {
@@ -128,10 +129,68 @@ contract('Marketh', accounts => {
     assert.equal(items[5], 7, 'The value is wrong')
   })
 
+  //it should allow purchase
+  it('should add pendingWithdrawals after purchasing', async () => {
+    const markethInstance = await Marketh.new()
+
+    await markethInstance.addStoreOwner(accounts[1])
+    await markethInstance.addStore('imgurl', 'title', 'desc', {
+      from: accounts[1]
+    })
+
+    await markethInstance.addItem(0, 'imgurl', 'title', 'desc', 5, 4, {
+      from: accounts[1]
+    })
+
+    const items = await markethInstance.items(0)
+
+    await markethInstance.buy(0, { 
+      from: accounts[2],
+      value: items[4]
+    })
+
+    const pendingAfter = await markethInstance.pendingWithdrawals(accounts[1])
+
+    assert.equal(items[4].toNumber(), pendingAfter.toNumber(), 'The value is wrong')
+
+  })
+
+  //it should allow withdraw
+  it('should decrease pendingWithdrawals to 0 after withdrawing', async () => {
+    const markethInstance = await Marketh.new()
+
+    await markethInstance.addStoreOwner(accounts[1])
+    await markethInstance.addStore('imgurl', 'title', 'desc', {
+      from: accounts[1]
+    })
+
+    await markethInstance.addItem(0, 'imgurl', 'title', 'desc', 5, 4, {
+      from: accounts[1]
+    })
+
+    const items = await markethInstance.items(0)
+
+    await markethInstance.buy(0, { 
+      from: accounts[2],
+      value: items[4]
+    })
+
+    const pendingBefore = await markethInstance.pendingWithdrawals(accounts[1])
+
+    await markethInstance.withdraw({
+      from: accounts[1]
+    })
+
+    const pendingAfter = await markethInstance.pendingWithdrawals(accounts[1])
+
+
+    assert.equal(0, pendingAfter.toNumber(), 'The value is wrong')
+
+  })
 
   //it should display correct PURCHASE HISTORY
   it('should display the correct purchase history', async () => {
-    const markethInstance = await Marketh.deployed()
+    const markethInstance = await Marketh.new()
 
     await markethInstance.addStoreOwner(accounts[1])
     await markethInstance.addStore('imgurl', 'title', 'desc', {
@@ -157,7 +216,7 @@ contract('Marketh', accounts => {
 
     const purchaseHistory = await markethInstance.getPurchaseHistory(accounts[2])
 
-    assert.equal(purchaseHistory.toString(1), [0,0], 'The value is wrong')
+    assert.equal(purchaseHistory.toString(5), [0,0], 'The value is wrong')
 
   })
 
