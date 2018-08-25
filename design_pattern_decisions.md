@@ -21,7 +21,7 @@ function kill() public onlyOwner {
 ---
 
 ## Mortal
-The kill() function allows the owner to destroy the contract and send all the ethers to the owner's address. 
+The kill() function allows the owner to destroy the contract and send all the Ether to the owner's address. 
 
 ```
 function kill() public onlyOwner {
@@ -107,5 +107,12 @@ function buy () public {
 ```
 
 ---
+### Fallback Function
 
+The fallback function is executed if the contract receives plain Ether without any data.
 
+```
+function() external payable {
+
+    }
+```
