@@ -71,6 +71,10 @@ contract Marketh is Ownable {
         _;
     }
 
+    function kill() public onlyOwner {
+        selfdestruct(owner);
+    }
+
     /** @dev Adds an address as a Store Owner.
       * @param _recipient Address of the Store Owner.
       */       
