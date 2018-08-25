@@ -9,8 +9,10 @@ export default class Web3Container extends React.Component {
   async componentDidMount () {
     try {
       const web3 = await getWeb3()
+      // const ens = await getENS()
       const accounts = await web3.eth.getAccounts()
       const contract = await getContract(web3, contractDefinition)
+      // const address = ens.reverse(accounts[0]).name()
 
       // Reload when Metamask change
       setInterval(async function() {
@@ -31,7 +33,7 @@ export default class Web3Container extends React.Component {
   }
 
   render () {
-    const { web3, accounts, contract, args } = this.state
+    const { web3, accounts, contract } = this.state
     return web3 && accounts
       ? this.props.render({ web3, accounts, contract })
       : this.props.renderLoading()
