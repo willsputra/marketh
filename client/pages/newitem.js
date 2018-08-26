@@ -10,14 +10,12 @@ import Header from '../components/Header'
 import PageWrapper from '../components/PageWrapper'
 import Button from '../components/Button'
 
-
 const ImageUploadWrapper = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin: 20px 0;
   max-width: 500px;
 `
-
 
 class NewItem extends React.Component {
   constructor(props) {
@@ -53,48 +51,54 @@ class NewItem extends React.Component {
       price,
       quantity
     } = this.state
-    await contract.methods
-      .addItem(
-        storeId,
-        imageUrl,
-        title,
-        description,
-        window.web3.toWei(price, 'ether'),
-        quantity
-      )
-      .send({
-        from: accounts[0],
-        gas: 4000000,
-        gasPrice: 4000000000
-      })
 
-    Router.push(`/store/${this.props.routers.query.id}`)
-    }
-
-    captureFile(event) {
-      event.preventDefault()
-      const file = event.target.files[0]
-      const reader = new window.FileReader()
-      reader.readAsArrayBuffer(file)
-      reader.onloadend = () => {
-        this.setState({ isLoading: true })
-        this.setState({ buffer: Buffer(reader.result) }, () => {
-  
-          console.log('buffer', this.state.buffer)
-          ipfs.files.add(this.state.buffer, (error, result) => {
-            if(error) {
-              console.error(error)
-              return
-            }
-            this.setState({ ipfsHash: result[0].hash }, () => {
-              this.setState({ imageUrl: `https://ipfs.io/ipfs/${this.state.ipfsHash}`})
-              this.setState({ isLoading: false })
-              console.log('ipfsHash', this.state.ipfsHash)
-            })
-            })
+    try {
+      await contract.methods
+        .addItem(
+          storeId,
+          imageUrl,
+          title,
+          description,
+          window.web3.toWei(price, 'ether'),
+          quantity
+        )
+        .send({
+          from: accounts[0],
+          gas: 4000000,
+          gasPrice: 4000000000
         })
-      }
+
+      Router.push(`/store/${this.props.routers.query.id}`)
+    } catch (error) {
+      alert(error)
     }
+  }
+
+  captureFile(event) {
+    event.preventDefault()
+    const file = event.target.files[0]
+    const reader = new window.FileReader()
+    reader.readAsArrayBuffer(file)
+    reader.onloadend = () => {
+      this.setState({ isLoading: true })
+      this.setState({ buffer: Buffer(reader.result) }, () => {
+        console.log('buffer', this.state.buffer)
+        ipfs.files.add(this.state.buffer, (error, result) => {
+          if (error) {
+            console.error(error)
+            return
+          }
+          this.setState({ ipfsHash: result[0].hash }, () => {
+            this.setState({
+              imageUrl: `https://ipfs.io/ipfs/${this.state.ipfsHash}`
+            })
+            this.setState({ isLoading: false })
+            console.log('ipfsHash', this.state.ipfsHash)
+          })
+        })
+      })
+    }
+  }
 
   // handleDrop = files => {
   //   // Push all the axios request promise into a single array
@@ -144,7 +148,11 @@ class NewItem extends React.Component {
     return (
       <PageWrapper>
         <Header />
-        <Link href={{ pathname: `/store/${this.props.routers.query.id}` }}><a><p style={{color: '#56C99D'}}>{"<"} Back to Store</p></a></Link>
+        <Link href={{ pathname: `/store/${this.props.routers.query.id}` }}>
+          <a>
+            <p style={{ color: '#56C99D' }}>{'<'} Back to Store</p>
+          </a>
+        </Link>
         <form onSubmit={this.addItem}>
           {/* <p>storeId</p>
           <input
@@ -180,16 +188,16 @@ class NewItem extends React.Component {
           />
           <p>Upload Image</p>
           <ImageUploadWrapper>
-          <input type='file' onChange={this.captureFile} />
+            <input type="file" onChange={this.captureFile} />
 
-          {/* <Dropzone
+            {/* <Dropzone
             onDrop={this.handleDrop}
             style={dropzoneStyle}
             accept="image/*"
           >
             <p>Drop your files or click here to upload</p>
           </Dropzone> */}
-          <img src={this.state.imageUrl} style = {{maxWidth: '100px'}}/>
+            <img src={this.state.imageUrl} style={{ maxWidth: '100px' }} />
           </ImageUploadWrapper>
           {button}
         </form>
@@ -202,7 +210,11 @@ class NewItemPage extends React.Component {
   render() {
     return (
       <Web3Container
-        renderLoading={() => <PageWrapper><p>Loading Dapp Page...</p></PageWrapper>}
+        renderLoading={() => (
+          <PageWrapper>
+            <p>Loading Dapp Page...</p>
+          </PageWrapper>
+        )}
         render={({ web3, accounts, contract }) => (
           <NewItem
             accounts={accounts}

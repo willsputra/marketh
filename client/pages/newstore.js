@@ -10,14 +10,12 @@ import Header from '../components/Header'
 import PageWrapper from '../components/PageWrapper'
 import Button from '../components/Button'
 
-
 const ImageUploadWrapper = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin: 20px 0;
   max-width: 500px;
 `
-
 
 class NewStore extends React.Component {
   constructor(props) {
@@ -41,13 +39,19 @@ class NewStore extends React.Component {
 
     const { accounts, contract } = this.props
     const { imageUrl, title, description } = this.state
-    await contract.methods.addStore(imageUrl, title, description).send({
-      from: accounts[0],
-      gas: 4000000,
-      gasPrice: 4000000000
-    })
 
-    Router.push(`/indexstore`)
+    try {
+      await contract.methods.addStore(imageUrl, title, description).send({
+        from: accounts[0],
+        gas: 4000000,
+        gasPrice: 4000000000
+      })
+      Router.push(`/indexstore`)
+
+    } catch (error) {
+      alert(error)
+    }
+
   }
 
   captureFile(event) {
@@ -58,24 +62,22 @@ class NewStore extends React.Component {
     reader.onloadend = () => {
       this.setState({ isLoading: true })
       this.setState({ buffer: Buffer(reader.result) }, () => {
-
         console.log('buffer', this.state.buffer)
         ipfs.files.add(this.state.buffer, (error, result) => {
-          if(error) {
+          if (error) {
             console.error(error)
             return
           }
           this.setState({ ipfsHash: result[0].hash }, () => {
-            this.setState({ imageUrl: `https://ipfs.io/ipfs/${this.state.ipfsHash}`})
+            this.setState({
+              imageUrl: `https://ipfs.io/ipfs/${this.state.ipfsHash}`
+            })
             this.setState({ isLoading: false })
             console.log('ipfsHash', this.state.ipfsHash)
           })
-          })
+        })
       })
     }
-
-
-
   }
   // handleDrop = files => {
 
@@ -113,8 +115,6 @@ class NewStore extends React.Component {
   //   })
   // }
 
-
-
   render() {
     let button
     if (this.state.isLoading == true) {
@@ -122,11 +122,15 @@ class NewStore extends React.Component {
     } else {
       button = <Button>Add Store</Button>
     }
-    
+
     return (
       <PageWrapper>
         <Header />
-        <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D'}}>{"<"} Back to Stores</p></a></Link>
+        <Link href={{ pathname: '/indexstore' }}>
+          <a>
+            <p style={{ color: '#56C99D' }}>{'<'} Back to Stores</p>
+          </a>
+        </Link>
         <h2>Add New Store</h2>
         {/* <Header accounts = {this.props.accounts}/> */}
         <form onSubmit={this.addStore}>
@@ -149,20 +153,18 @@ class NewStore extends React.Component {
           />
           <p>Upload Store Image</p>
           <ImageUploadWrapper>
-
-            <input type='file' onChange={this.captureFile} />
-          {/* <div><Dropzone
+            <input type="file" onChange={this.captureFile} />
+            {/* <div><Dropzone
             onDrop={this.handleDrop}
             style={dropzoneStyle}
             accept="image/*"
           >
             <p>Drop your files or click here to upload</p>
           </Dropzone></div> */}
-          <img src = {this.state.imageUrl} style = {{maxWidth: '100px'}}/>
+            <img src={this.state.imageUrl} style={{ maxWidth: '100px' }} />
           </ImageUploadWrapper>
           {button}
         </form>
-
       </PageWrapper>
     )
   }
@@ -170,7 +172,11 @@ class NewStore extends React.Component {
 
 export default () => (
   <Web3Container
-    renderLoading={() => <PageWrapper><p>Loading Dapp Page...</p></PageWrapper>}
+    renderLoading={() => (
+      <PageWrapper>
+        <p>Loading Dapp Page...</p>
+      </PageWrapper>
+    )}
     render={({ web3, accounts, contract }) => (
       <NewStore accounts={accounts} contract={contract} web3={web3} />
     )}

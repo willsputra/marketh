@@ -38,7 +38,7 @@ export default () => (
 
         <h1>
           Buy & sell anything
-          <br /> on the blockchain.
+          <br /> on the blockchain
         </h1>
         <Link href={{ pathname: '/indexstore' }}>
           <a>
@@ -47,7 +47,6 @@ export default () => (
           </a>
         </Link>
       </div>
-      {/* <img style={{maxWidth: '300px'}}src='https://res.cloudinary.com/dte4ckqx1/image/upload/v1535278955/marketh/bg.png' /> */}
 
       <div
         style={{
