@@ -53,7 +53,6 @@ const BuyButton = styled.button `
   font-size: 14px;
 `
 
-
 class IndexItem extends React.Component {
 
   state = {
@@ -127,9 +126,21 @@ class IndexItem extends React.Component {
             <ItemTitle>{item.title}</ItemTitle>
             <ItemPrice>{window.web3.fromWei(item.price)} ETH</ItemPrice>
             <p>{item.description}</p>
-            <p>Only {item.quantity} left!</p>
 
-            <BuyButton onClick={() => this.buy(index, item.price)}>Purchase Item</BuyButton>
+            {(() => {
+             if(item.quantity == 0){
+               return <div><p>This item is sold out.</p><BuyButton style={{ background: '#D0D0D0', cursor: 'auto'}}>Sold Out</BuyButton></div>
+             } else {
+              return <div><p>Only {item.quantity} left!</p><BuyButton onClick={() => this.buy(index, item.price)}>Purchase Item</BuyButton></div>
+             }})()}
+
+           {(() => {
+             if(this.state.isStoreOwner){
+               return  <Link
+               href={{ pathname: '/edititem', query: { storeId: this.props.routers.query.id, itemId: index } }} as={`/edititem/${index}`}
+           ><a><p style={{color: '#FE4A49'}}>Edit Item</p></a></Link>
+
+           }})()}
             </ItemText>
             </Item>
         ))}
