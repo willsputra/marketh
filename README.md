@@ -10,33 +10,61 @@ With Marketh:
  ## Running the live Rinkeby instance
 Make sure your Metamask is running on Rinkeby, and visit [http:xx](http:xx)
 
+---
 
- ## Running a local dev Server
- 
- 1. Install all the required modules
- ```
- $ npm install
- ```
+## Running a local dev server
 
- 2. Start the Ethereum client (willl run on localhost:9545)
- ```
- $ truffle develop
- ```
+### Running the test and migration
 
- 3. Once you're in truffle (develop), run the migration
- ```
- $ truffle(develop)> migration --reset
- ```
-
- 4. To test, run
- ```
- $ truffle(develop)> test
+1. Clone this repo
+```
+git clone https://github.com/willsputra/marketh.git
 ```
 
-5. To run the client, run
+2. Run `npm install` to install the required modules
 ```
-$ cd client
-$ npm run dev
+npm install
 ```
 
-6. Go to **localhost:3000** on your browser, make sure your Metamask is pointed to 9545, have fun!
+3. Run ganache-cli to start your blockchain on port 8545
+```
+ganache-cli
+```
+
+4. Run truffle test to run the test
+```
+truffle test
+```
+
+5. Run truffle migrate to compile and migrate the contract
+```
+truffle migrate --reset
+```
+
+### Running the client
+1. Go to the client/ directory
+```
+cd client
+```
+
+2. Run `npm install` to install the required modules
+```
+npm install
+```
+
+3. Run `npm run dev` to start the client on `localhost:3000`
+```
+npm run dev
+```
+
+4. Make sure your MetaMask is running on the correct port (**http://localhost/8545** for `ganache-cli` or **http://localhost9545** for `truffle develop`), then go to localhost:3000 on your browser
+
+
+### Quickstart
+1. Go to Admin Tools and add an address as a store owner
+2. Go to Store, and login to MetaMask as the store owner. You should be able to see an 'Add Store' button
+3. Add a store
+4. Add an item
+5. Enjoy!
+
+---
