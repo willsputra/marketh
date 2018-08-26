@@ -4,6 +4,7 @@ import Web3Container from '../lib/Web3Container'
 
 import Header from '../components/Header'
 import PageWrapper from '../components/PageWrapper'
+import Button from '../components/Button'
 
 class Dapp extends React.Component {
 
@@ -17,11 +18,10 @@ class Dapp extends React.Component {
   state = {
     balance: undefined,
     ethBalance: undefined,
-    // admin: undefined,
     storeOwner: undefined,
     storeOwnersCount: undefined,
     storeOwners: undefined,
-    isStoreOwner: undefined
+    isStoreOwner: ''
   };
 
   async addStoreOwner(event) {
@@ -56,23 +56,31 @@ class Dapp extends React.Component {
     return(
     <PageWrapper>
       <Header />
-      {/* <button onClick={this.getAdmin}>Admin</button>
-      <p>{this.state.admin}</p> */}
-      <button onClick={this.getStoreOwnersCount}>Store Owner Count</button>
-      <p>{this.state.storeOwnersCount}</p>
 
       <form onSubmit = {this.addStoreOwner}>
-        <input value = {this.state.storeOwner} onChange = {event => this.setState({storeOwner: event.target.value })} />
+      <p><strong>1. Assign an address as a store owner</strong></p>
+      <p>Enter an address to assign it as a store owner. Make sure you run the function from the contract owner address.</p>
+        <input value = {this.state.storeOwner} onChange = {event => this.setState({storeOwner: event.target.value })}/>
         <button>Add</button>
       </form>
 
       <form onSubmit = {this.storeOwners}>
+      <p><strong>2. Check if store owner assignment is successful</strong></p>
+      <p>After the transaction has been completed, enter the address again here to check if the address is a store owner.</p>
         <input value = {this.state.storeOwners} onChange = {event => this.setState (
           {storeOwners: event.target.value }
-        )} />
+        )}/>
       <button>Check</button>
-      </form>
       <p>{this.state.isStoreOwner}</p>
+
+      </form>
+      <p><strong>3. Check how many store owners are there</strong></p>
+      <button onClick={this.getStoreOwnersCount}>Store Owner Count</button>
+      <p>{this.state.storeOwnersCount}</p>
+
+
+      <Link href = {{ pathname: '/indexstore' }}><a><Button>Go to Store</Button></a></Link>
+
     </PageWrapper>
     )
   }

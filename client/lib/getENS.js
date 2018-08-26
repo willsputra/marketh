@@ -1,6 +1,5 @@
 import Web3 from 'web3'
 import ENS from 'ethereum-ens'
-import publicresolver from './contracts/PublicResolver.json'
 
 const resolveENS = (resolve) => {
   let { web3 } = window

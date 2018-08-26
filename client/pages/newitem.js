@@ -1,24 +1,14 @@
 import React from 'react'
-import Link from 'next/link'
 import Router, { withRouter } from 'next/router'
 import Web3Container from '../lib/Web3Container'
+import ipfs from '../lib/ipfs'
 
 import styled from 'styled-components'
-import Dropzone from 'react-dropzone'
-import axios from 'axios'
 
 import Header from '../components/Header'
 import PageWrapper from '../components/PageWrapper'
+import Button from '../components/Button'
 
-import keys from '../config/keys'
-
-const dropzoneStyle = {
-  cursor: 'pointer',
-  maxWidth: '200px',
-  background: '#F0F1F5',
-  padding: '20px',
-  border: '#DBDBDE solid 2px',
-}
 
 const ImageUploadWrapper = styled.div`
   display: grid;
@@ -27,36 +17,25 @@ const ImageUploadWrapper = styled.div`
   max-width: 500px;
 `
 
-const UploadedImage = styled.div`
-  max-height: 100px
-`
-
-const NewItemButton = styled.button `
-  background: #56C99D;
-  color: white;
-  padding: 15px 40px;
-  border: 0px;
-  border-radius: 3px;
-  cursor: pointer;
-  margin: 50px auto;
-`
 
 class NewItem extends React.Component {
   constructor(props) {
     super(props)
 
     this.addItem = this.addItem.bind(this)
-    this.handleDrop = this.handleDrop.bind(this)
+    this.captureFile = this.captureFile.bind(this)
   }
 
   state = {
     storeId: this.props.routers.query.id,
-    imageUrl: '',
+    imageUrl: undefined,
     title: '',
     description: '',
     price: undefined,
     quantity: undefined,
-    isLoading: false
+    isLoading: false,
+    ipfsHash: '',
+    buffer: null
   }
 
   async addItem(event) {
@@ -83,48 +62,73 @@ class NewItem extends React.Component {
         quantity
       )
       .send({
-        from: accounts[s0],
+        from: accounts[0],
         gas: 4000000,
         gasPrice: 4000000000
       })
 
     Router.push(`/store/${this.props.routers.query.id}`)
-  }
+    }
 
-  handleDrop = files => {
-    // Push all the axios request promise into a single array
-    this.setState({
-      isLoading: true
-    })
-    const uploaders = files.map(file => {
-      // Initial FormData
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('tags', `codeinfuse, medium, gist`)
-      formData.append('upload_preset', keys.cloudinaryPreset) // Replace the preset name with your own
-      formData.append('api_key', keys.cloudinaryKey) // Replace API key with your own Cloudinary key
-      formData.append('timestamp', (Date.now() / 1000) | 0)
-
-      // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
-      return axios
-        .post(
-          'https://api.cloudinary.com/v1_1/dte4ckqx1/image/upload',
-          formData,
-          {
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-          }
-        )
-        .then(response => {
-          const data = response.data
-          const fileUrl = data.secure_url // You should store this URL for future references in your app
-          console.log(fileUrl)
-          this.setState({
-            imageUrl: fileUrl,
-            isLoading: false
-          })
+    captureFile(event) {
+      event.preventDefault()
+      const file = event.target.files[0]
+      const reader = new window.FileReader()
+      reader.readAsArrayBuffer(file)
+      reader.onloadend = () => {
+        this.setState({ isLoading: true })
+        this.setState({ buffer: Buffer(reader.result) }, () => {
+  
+          console.log('buffer', this.state.buffer)
+          ipfs.files.add(this.state.buffer, (error, result) => {
+            if(error) {
+              console.error(error)
+              return
+            }
+            this.setState({ ipfsHash: result[0].hash }, () => {
+              this.setState({ imageUrl: `https://ipfs.io/ipfs/${this.state.ipfsHash}`})
+              this.setState({ isLoading: false })
+              console.log('ipfsHash', this.state.ipfsHash)
+            })
+            })
         })
-    })
-  }
+      }
+    }
+
+  // handleDrop = files => {
+  //   // Push all the axios request promise into a single array
+  //   this.setState({
+  //     isLoading: true
+  //   })
+  //   const uploaders = files.map(file => {
+  //     // Initial FormData
+  //     const formData = new FormData()
+  //     formData.append('file', file)
+  //     formData.append('tags', `codeinfuse, medium, gist`)
+  //     formData.append('upload_preset', keys.cloudinaryPreset) // Replace the preset name with your own
+  //     formData.append('api_key', keys.cloudinaryKey) // Replace API key with your own Cloudinary key
+  //     formData.append('timestamp', (Date.now() / 1000) | 0)
+
+  //     // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+  //     return axios
+  //       .post(
+  //         'https://api.cloudinary.com/v1_1/dte4ckqx1/image/upload',
+  //         formData,
+  //         {
+  //           headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  //         }
+  //       )
+  //       .then(response => {
+  //         const data = response.data
+  //         const fileUrl = data.secure_url // You should store this URL for future references in your app
+  //         console.log(fileUrl)
+  //         this.setState({
+  //           imageUrl: fileUrl,
+  //           isLoading: false
+  //         })
+  //       })
+  //   })
+  // }
 
   render() {
     console.log(this.state)
@@ -133,7 +137,7 @@ class NewItem extends React.Component {
     if (this.state.isLoading == true) {
       button = <p>Uploading image...</p>
     } else {
-      button = <NewItemButton>Add Item</NewItemButton>
+      button = <Button>Add Item</Button>
     }
 
     return (
@@ -174,14 +178,16 @@ class NewItem extends React.Component {
           />
           <p>Upload Image</p>
           <ImageUploadWrapper>
-          <Dropzone
+          <input type='file' onChange={this.captureFile} />
+
+          {/* <Dropzone
             onDrop={this.handleDrop}
             style={dropzoneStyle}
             accept="image/*"
           >
             <p>Drop your files or click here to upload</p>
-          </Dropzone>
-          <UploadedImage><img src={this.state.imageUrl} /></UploadedImage>
+          </Dropzone> */}
+          <img src={this.state.imageUrl} style = {{maxWidth: '100px'}}/>
           </ImageUploadWrapper>
           {button}
         </form>

@@ -3,45 +3,20 @@ import Router from 'next/router'
 import Web3Container from '../lib/Web3Container'
 import ipfs from '../lib/ipfs'
 
-import Dropzone from 'react-dropzone'
 import styled from 'styled-components'
-import axios from 'axios'
-
-import keys from '../config/keys'
 
 import Header from '../components/Header'
 import PageWrapper from '../components/PageWrapper'
+import Button from '../components/Button'
 
-const dropzoneStyle = {
-  cursor: "pointer",
-  maxWidth: "200px",
-  maxHeight: "100px",
-  background: "#F0F1F5",
-  padding: "20px",
-  border: "#DBDBDE solid 2px",
-  display: "block"
-}
-
-const NewStoreButton = styled.button `
-  background: #56C99D;
-  color: white;
-  padding: 15px 40px;
-  border: 0px;
-  border-radius: 3px;
-  cursor: pointer;
-  margin: 50px auto;
-`
 
 const ImageUploadWrapper = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin: 20px 0;
-  max-width: 30px;
+  max-width: 500px;
 `
 
-const UploadedImage = styled.div`
-  max-height: 100px
-`
 
 class NewStore extends React.Component {
   constructor(props) {
@@ -92,7 +67,7 @@ class NewStore extends React.Component {
           this.setState({ ipfsHash: result[0].hash }, () => {
             this.setState({ imageUrl: `https://ipfs.io/ipfs/${this.state.ipfsHash}`})
             this.setState({ isLoading: false })
-            console.log('ifpsHash', this.state.ipfsHash)
+            console.log('ipfsHash', this.state.ipfsHash)
           })
           })
       })
@@ -144,7 +119,7 @@ class NewStore extends React.Component {
     if (this.state.isLoading == true) {
       button = <p>Uploading image to IPFS...</p>
     } else {
-      button = <NewStoreButton>Add Store</NewStoreButton>
+      button = <Button>Add Store</Button>
     }
     
     return (
@@ -181,7 +156,7 @@ class NewStore extends React.Component {
           >
             <p>Drop your files or click here to upload</p>
           </Dropzone></div> */}
-          <img src = {this.state.imageUrl}/>
+          <img src = {this.state.imageUrl} style = {{maxWidth: '100px'}}/>
           </ImageUploadWrapper>
           {button}
         </form>

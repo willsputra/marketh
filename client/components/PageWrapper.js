@@ -8,10 +8,6 @@ const PageWrapper = styled.div`
     max-width: 1000px
 `
 
-const hehe = styled.p`
-    letter-spacing: 300px
-`
-
 export default (props) => {
     return (
     <PageWrapper>{props.children}</PageWrapper>

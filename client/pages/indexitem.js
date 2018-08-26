@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import Header from '../components/Header'
 import PageWrapper from '../components/PageWrapper'
+import Button from '../components/Button'
 
 const ItemWrapper = styled.div`
   display: grid;
@@ -39,15 +40,6 @@ const BuyButton = styled.button `
   cursor: pointer;
 `
 
-const NewItemButton = styled.button `
-  background: #56C99D;
-  color: white;
-  padding: 15px 40px;
-  border: 0px;
-  border-radius: 3px;
-  cursor: pointer;
-  margin: 50px auto;
-`
 
 class IndexItem extends React.Component {
 
@@ -105,7 +97,7 @@ class IndexItem extends React.Component {
       newItem = (
         <Link
               href={{ pathname: '/newitem', query: { id: this.props.routers.query.id } }} as={`/newitem/${this.props.routers.query.id}`}
-          ><NewItemButton>Add New Item</NewItemButton></Link>
+          ><a><Button>Add New Item</Button></a></Link>
       )
     }
 

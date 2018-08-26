@@ -2,6 +2,38 @@
 
 Several contract design patterns are applied.
 
+---
+## Using IPFS
+
+Images are stored on IPFS for better decentralization. Read file from input file, and upload it to IPFS.
+
+```
+    captureFile(event) {
+      event.preventDefault()
+      const file = event.target.files[0]
+      const reader = new window.FileReader()
+      reader.readAsArrayBuffer(file)
+      reader.onloadend = () => {
+        this.setState({ isLoading: true })
+        this.setState({ buffer: Buffer(reader.result) }, () => {
+  
+          console.log('buffer', this.state.buffer)
+          ipfs.files.add(this.state.buffer, (error, result) => {
+            if(error) {
+              console.error(error)
+              return
+            }
+            this.setState({ ipfsHash: result[0].hash }, () => {
+              this.setState({ imageUrl: `https://ipfs.io/ipfs/${this.state.ipfsHash}`})
+              this.setState({ isLoading: false })
+              console.log('ipfsHash', this.state.ipfsHash)
+            })
+            })
+        })
+      }
+    }
+```
+
 
 ---
 

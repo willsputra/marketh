@@ -6,6 +6,7 @@ import Dotdotdot from 'react-dotdotdot'
 
 import Header from '../components/Header'
 import PageWrapper from '../components/PageWrapper'
+import Button from '../components/Button'
 
 const StoreWrapper = styled.div`
   display: grid;
@@ -31,16 +32,6 @@ const StoreImg = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-`
-
-const NewStoreButton = styled.button`
-  background: #56c99d;
-  color: white;
-  padding: 15px 40px;
-  border: 0px;
-  border-radius: 3px;
-  cursor: pointer;
-  margin: 50px auto;
 `
 
 class IndexStore extends React.Component {
@@ -80,7 +71,7 @@ class IndexStore extends React.Component {
       newStore = (
         <Link href={{ pathname: '/newstore' }}>
           <a>
-            <NewStoreButton>Add New Store</NewStoreButton>
+            <Button>Add New Store</Button>
           </a>
         </Link>
       )
