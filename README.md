@@ -8,7 +8,7 @@ With Marketh:
  * Users are able to **buy items with ETH**, and the store owners will then be able to **withdraw their ETH balance**
 
  ## Running the live Rinkeby instance
-Make sure your Metamask is running on Rinkeby, and visit [http:xx](http:xx)
+Make sure your Metamask is running on Rinkeby, and visit [https://marketh.xyz](https://marketh.xyz)
 
 ---
 
