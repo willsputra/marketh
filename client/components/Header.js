@@ -27,6 +27,7 @@ const Header = ({ accounts }) => (
     <Nav>
       <p>{accounts}</p>
       <p><Link href = {{pathname: '/purchasehistory'}}><a>PURCHASE HISTORY</a></Link></p>
+      <p><Link href = {{pathname: '/withdraw'}}><a>WITHDRAW</a></Link></p>
     </Nav>
     </HeaderWrapper>
 )

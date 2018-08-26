@@ -1,0 +1,26 @@
+{
+  "name": "marketh",
+  "version": "1.0.0",
+  "description": "Marketh is an online marketplace operating on the Ethereum blockchain.",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willsputra/marketh.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/willsputra/marketh/issues"
+  },
+  "homepage": "https://github.com/willsputra/marketh#readme",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "truffle-hdwallet-provider": "0.0.6"
+  }
+}
