@@ -18,7 +18,7 @@ const StoreWrapper = styled.div`
 const Store = styled.div`
   background: white;
   padding: 0px;
-  height: 300px;
+  height: 350px;
   border-radius: 5px;
   box-shadow: 0px 3px 8px #edeef0;
 `
@@ -29,7 +29,7 @@ const StoreTitle = styled.h2`
 
 const StoreImg = styled.div`
   margin: 0 auto;
-  height: 200px;
+  height: 250px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -86,7 +86,7 @@ class IndexStore extends React.Component {
     return (
       <PageWrapper>
         <Header />
-        <h2>Store List</h2>
+        <h2>Stores</h2>
         <StoreWrapper>
           {this.state.stores.map((store, index) => (
             <Link

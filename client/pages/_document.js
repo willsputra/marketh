@@ -29,6 +29,12 @@ injectGlobal`
       color: #35353E;
       font-size: 14px;
     }
+    h1 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 700;
+      color: #35353E;
+      font-size: 48px;
+    }
     h2 {
       font-family: 'IBM Plex Sans', sans-serif;
       font-weight: 700;

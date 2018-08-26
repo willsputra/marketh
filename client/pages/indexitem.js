@@ -116,7 +116,7 @@ class IndexItem extends React.Component {
     return (
       <PageWrapper>
         <Header />
-        <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D', marginBottom: '40px'}}>{"<"} Back to Store List</p></a></Link>
+        <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D', marginBottom: '40px'}}>{"<"} Back to Stores</p></a></Link>
         <h2>{this.props.routers.query.name}</h2>
         <ItemWrapper>
         {this.state.items.map((item, index) => (
