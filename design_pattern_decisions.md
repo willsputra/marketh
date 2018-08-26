@@ -139,7 +139,7 @@ function buy () public {
 ```
 
 ---
-### Fallback Function
+## Fallback Function
 
 The fallback function is executed if the contract receives plain Ether without any data.
 
