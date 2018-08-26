@@ -56,6 +56,8 @@ class PurchaseHistory extends React.Component {
     return (
       <PageWrapper>
         <Header />
+        <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D', marginBottom: '40px'}}>{"<"} Back to Store List</p></a></Link>
+
         {this.state.items.map((item, index) => (
           <Purchase>
             <PurchaseImg src = {`${item.imageUrl}`} />

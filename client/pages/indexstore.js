@@ -12,11 +12,12 @@ const StoreWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
+  margin: 30px auto;
 `
 
 const Store = styled.div`
   background: white;
-  padding: 20px;
+  padding: 0px;
   height: 300px;
   border-radius: 5px;
   box-shadow: 0px 3px 8px #edeef0;
@@ -32,6 +33,10 @@ const StoreImg = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+`
+
+const StoreText = styled.div`
+  padding: 10px 20px;
 `
 
 class IndexStore extends React.Component {
@@ -91,10 +96,12 @@ class IndexStore extends React.Component {
               <a>
                 <Store>
                   <StoreImg style={{backgroundImage: `url(${store.imageUrl})`}}></StoreImg>
+                  <StoreText>
                   <StoreTitle>{store.title}</StoreTitle>
                   <Dotdotdot clamp={2}>
                     <p>{store.description}</p>
                   </Dotdotdot>
+                  </StoreText>
                 </Store>
               </a>
             </Link>

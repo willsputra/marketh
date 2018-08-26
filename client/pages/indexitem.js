@@ -12,11 +12,12 @@ const ItemWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
+  margin: 30px 0;
 `
 
 const Item = styled.div`
   background: white;
-  padding: 20px;
+  padding: 0px;
 `
 
 const ItemImg = styled.div`
@@ -31,13 +32,25 @@ const ItemTitle = styled.h2 `
   margin-bottom: -10px;
 `
 
+const ItemPrice = styled.p`
+  color: #FE4A49;
+  font-weight: 700;
+  font-size: 16px;
+`
+const ItemText = styled.div`
+  padding: 10px 20px;
+`
+
+
 const BuyButton = styled.button `
-  background: #56C99D;
+  background: #FE4A49;
   color: white;
-  padding: 10px 40px;
+  padding: 15px 50px;
+  margin: 10px 0 20px 0;
   border: 0px;
   border-radius: 3px;
   cursor: pointer;
+  font-size: 14px;
 `
 
 
@@ -104,17 +117,20 @@ class IndexItem extends React.Component {
     return (
       <PageWrapper>
         <Header />
-        <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D'}}>{"<"} Back to Store List</p></a></Link>
+        <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D', marginBottom: '40px'}}>{"<"} Back to Store List</p></a></Link>
         <h2>{this.props.routers.query.name}</h2>
         <ItemWrapper>
         {this.state.items.map((item, index) => (
             <Item>
             <ItemImg style={{backgroundImage: `url(${item.imageUrl})`}} />
+            <ItemText>
             <ItemTitle>{item.title}</ItemTitle>
+            <ItemPrice>{window.web3.fromWei(item.price)} ETH</ItemPrice>
             <p>{item.description}</p>
-            <p>{window.web3.fromWei(item.price)} ETH</p>
             <p>Only {item.quantity} left!</p>
-            <BuyButton onClick={() => this.buy(index, item.price)}>Buy</BuyButton>
+
+            <BuyButton onClick={() => this.buy(index, item.price)}>Purchase Item</BuyButton>
+            </ItemText>
             </Item>
         ))}
         </ItemWrapper>

@@ -71,9 +71,10 @@ class Dapp extends React.Component {
           {storeOwners: event.target.value }
         )}/>
       <button>Check</button>
-      <p>{this.state.isStoreOwner}</p>
-
       </form>
+
+      <p>{this.state.isStoreOwner.toString()}</p>
+
       <p><strong>3. Check how many store owners are there</strong></p>
       <button onClick={this.getStoreOwnersCount}>Store Owner Count</button>
       <p>{this.state.storeOwnersCount}</p>
