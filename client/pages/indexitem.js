@@ -33,7 +33,7 @@ const ItemTitle = styled.h2 `
 `
 
 const ItemPrice = styled.p`
-  color: #FE4A49;
+  color: #FF6F59;
   font-weight: 700;
   font-size: 16px;
 `
@@ -43,7 +43,7 @@ const ItemText = styled.div`
 
 
 const BuyButton = styled.button `
-  background: #FE4A49;
+  background: #FF6F59;
   color: white;
   padding: 15px 50px;
   margin: 10px 0 20px 0;
@@ -138,7 +138,7 @@ class IndexItem extends React.Component {
              if(this.state.isStoreOwner){
                return  <Link
                href={{ pathname: '/edititem', query: { storeId: this.props.routers.query.id, itemId: index } }} as={`/edititem/${index}`}
-           ><a><p style={{color: '#FE4A49'}}>Edit Item</p></a></Link>
+           ><a><p style={{color: '#FF6F59'}}>Edit Item</p></a></Link>
 
            }})()}
             </ItemText>
