@@ -126,7 +126,7 @@ class NewStore extends React.Component {
     return (
       <PageWrapper>
         <Header />
-        <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D'}}>{"<"} Back to Store List</p></a></Link>
+        <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D'}}>{"<"} Back to Stores</p></a></Link>
         <h2>Add New Store</h2>
         {/* <Header accounts = {this.props.accounts}/> */}
         <form onSubmit={this.addStore}>

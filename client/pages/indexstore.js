@@ -86,7 +86,6 @@ class IndexStore extends React.Component {
     return (
       <PageWrapper>
         <Header />
-        <h2>Stores</h2>
         <StoreWrapper>
           {this.state.stores.map((store, index) => (
             <Link

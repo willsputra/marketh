@@ -40,7 +40,7 @@ class Withdraw extends React.Component {
     return(
     <PageWrapper>
       <Header />
-      <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D', marginBottom: '40px'}}>{"<"} Back to Store List</p></a></Link>
+      <Link href={{ pathname: '/indexstore' }}><a><p style={{color: '#56C99D', marginBottom: '40px'}}>{"<"} Back to Stores</p></a></Link>
       <h2>Withdraw</h2>
       <p>Available balance to withdraw: <strong>{this.state.pendingWithdrawals} ETH</strong></p>
       <button onClick={this.withdraw}>Withdraw</button>
