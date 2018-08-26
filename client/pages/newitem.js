@@ -2,6 +2,7 @@ import React from 'react'
 import Router, { withRouter } from 'next/router'
 import Web3Container from '../lib/Web3Container'
 import ipfs from '../lib/ipfs'
+import Link from 'next/link'
 
 import styled from 'styled-components'
 
@@ -131,7 +132,7 @@ class NewItem extends React.Component {
   // }
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
 
     let button
     if (this.state.isLoading == true) {
@@ -143,6 +144,7 @@ class NewItem extends React.Component {
     return (
       <PageWrapper>
         <Header />
+        <Link href={{ pathname: `/store/${this.props.routers.query.id}` }}><a><p style={{color: '#56C99D'}}>{"<"} Back to Store</p></a></Link>
         <form onSubmit={this.addItem}>
           {/* <p>storeId</p>
           <input

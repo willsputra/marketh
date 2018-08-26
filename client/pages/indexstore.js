@@ -81,10 +81,11 @@ class IndexStore extends React.Component {
     return (
       <PageWrapper>
         <Header />
+        <h2>Store List</h2>
         <StoreWrapper>
           {this.state.stores.map((store, index) => (
             <Link
-              href={{ pathname: '/indexitem', query: { id: index } }}
+              href={{ pathname: '/indexitem', query: { id: index, name: store.title } }}
               as={`/store/${index}`}
             >
               <a>
