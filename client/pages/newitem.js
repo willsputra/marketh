@@ -34,7 +34,8 @@ class NewItem extends React.Component {
     quantity: undefined,
     isLoading: false,
     ipfsHash: '',
-    buffer: null
+    buffer: null,
+    success: ''
   }
 
   async addItem(event) {
@@ -67,7 +68,9 @@ class NewItem extends React.Component {
           gas: 4000000,
           gasPrice: 4000000000
         })
-
+      this.setState({
+        success: 'Transaction submitted. You will be redirected once the transaction is confirmed.'
+      })
       Router.push(`/store/${this.props.routers.query.id}`)
     } catch (error) {
       alert(error)
@@ -201,6 +204,7 @@ class NewItem extends React.Component {
           </ImageUploadWrapper>
           {button}
         </form>
+        <p>{this.state.success}</p>
       </PageWrapper>
     )
   }

@@ -60,6 +60,7 @@ export default class MyCustomDocument extends Document {
           <link href="/static/favicon.ico" rel="shortcut icon" />
           <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,700" rel="stylesheet" />
           {this.props.styleTags}
+          <title>Marketh | Buy & sell anything on the blockchain</title>
         </Head>
         <body>
           <Main />

@@ -22,7 +22,7 @@ const Item = styled.div`
 
 const ItemImg = styled.div`
   margin: 0 auto;
-  height: 200px;
+  height: 270px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
