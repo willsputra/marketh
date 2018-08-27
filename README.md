@@ -1,11 +1,17 @@
 # Marketh
 
 Marketh is an online marketplace operating on the Ethereum blockchain.
+Live on Rinkeby at [https://marketh.xyz](https://marketh.xyz)
 
 With Marketh:
+ * Contract owner is able to **assign store owners**
  * Store owners are able to **create stores**
  * Store owners are able to **list items on their stores**
  * Users are able to **buy items with ETH**, and the store owners will then be able to **withdraw their ETH balance**
+
+Built with [Next.js](https://github.com/zeit/next.js/), [Truffle-Next Box](https://github.com/adrianmcli/truffle-next), and [styled-components](https://github.com/styled-components/styled-components)
+
+---
 
  ## Running the live Rinkeby instance
 Make sure your Metamask is running on Rinkeby, and visit [https://marketh.xyz](https://marketh.xyz)
